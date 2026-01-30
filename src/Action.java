@@ -1,0 +1,3 @@
+public enum Action {
+    ANGLE1UP,ANGLE1DOWN,ANGLE2UP,ANGLE2DOWN;
+}
