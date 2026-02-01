@@ -6,4 +6,8 @@ public class Constants {
 
 
     public static double LEARNING_RATE = 1;
+
+
+    public static double BIAS_STARTER_VALUE = 0.01;
+
 }

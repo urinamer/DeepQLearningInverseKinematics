@@ -5,8 +5,8 @@ public class Agent {
     private State currentState;
     private Action[] actions;
 
-
-    Random random = new Random();
+    private float epsilon = 1;
+    private Random random = new Random();
 
     private Agent(){
         currentState = null;
@@ -38,7 +38,7 @@ public class Agent {
     }
 
 
-    private Action chooseBestAction(int currentStateIndex,double epsilon){
+    private Action chooseBestAction(int currentStateIndex){
 
         //call network forward pass
 
