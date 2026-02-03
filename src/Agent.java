@@ -12,7 +12,6 @@ public class Agent {
 
     //global variables save or not create over and over
     private float epsilon = 1;
-    private QValueIndexPair qValueIndexPair;
     private Random random = new Random();
 
     private Agent(){
@@ -20,7 +19,6 @@ public class Agent {
         //should change to make scalable with more than 2 DOF
         mainNetwork = new Network(4,4,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
         actions = Action.values();
-        qValueIndexPair = new QValueIndexPair();
     }
 
     public static Agent getAgent(){
@@ -74,6 +72,10 @@ public class Agent {
     }
 
 
+
+    public void addToReplayBuffer(State currentState, Action action, double reward, State nextState){
+        replayBuffer.addToReplayBuffer(currentState,action,reward,nextState);
+    }
     public State getCurrentState() {
         return currentState;
     }

@@ -29,8 +29,33 @@ public class Environment {
         }
     }
 
-    public void step(Action action){
+    public double step(Action action){//returns reward
 
+
+        //check if possible(doesn't have collisions and doesn't hit the walls
+
+
+        //need to make more scalable.
+        switch (action){
+
+            case ANGLE1DOWN -> agent.getCurrentState().setAngle1(agent.getCurrentState().getAngle1()-(Constants.ANGLE_CHANGE_STEP*Constants.STEP_SIZE));
+
+            case ANGLE1UP -> agent.getCurrentState().setAngle1(agent.getCurrentState().getAngle1()+(Constants.ANGLE_CHANGE_STEP*Constants.STEP_SIZE));
+
+            case ANGLE2DOWN -> agent.getCurrentState().setAngle2(agent.getCurrentState().getAngle2()-(Constants.ANGLE_CHANGE_STEP*Constants.STEP_SIZE));
+
+            case ANGLE2UP -> agent.getCurrentState().setAngle2(agent.getCurrentState().getAngle2()+(Constants.ANGLE_CHANGE_STEP*Constants.STEP_SIZE));
+
+        }
+
+
+        return 0;
     }
 
+
+
+
+    public Agent getAgent() {
+        return agent;
+    }
 }
