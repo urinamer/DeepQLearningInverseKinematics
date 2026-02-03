@@ -16,8 +16,8 @@ public class ReplayBuffer {
         size = 0;
     }
 
-    public void addToReplayBuffer(State currentState, Action action, double reward, State nextState){
-        BufferTransition newTransition = new BufferTransition(currentState,action,reward,nextState);
+    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState){
+        BufferTransition newTransition = new BufferTransition(currentState,actionIndex,reward,nextState);
         replayBuffer.add(newTransition);
         size++;
     }

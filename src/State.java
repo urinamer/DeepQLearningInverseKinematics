@@ -1,15 +1,22 @@
 public class State {
 
+    private double[] angles;
     private double targetX;
     private double targetY;
-    private double angle1;
-    private double angle2;
 
-    public State(double targetX, double targetY, double angle1, double angle2) {
+    public State(double targetX, double targetY,double[] angles) {
+        this.angles = new double[angles.length];
+        System.arraycopy(angles, 0, this.angles, 0, angles.length);//more efficient copying
         this.targetX = targetX;
         this.targetY = targetY;
-        this.angle1 = angle1;
-        this.angle2 = angle2;
+    }
+
+    public double[] getAngles() {
+        return angles;
+    }
+
+    public void setAngles(double[] angles) {
+        this.angles = angles;
     }
 
     public double getTargetX() {
@@ -26,21 +33,5 @@ public class State {
 
     public void setTargetY(double targetY) {
         this.targetY = targetY;
-    }
-
-    public double getAngle1() {
-        return angle1;
-    }
-
-    public void setAngle1(double angle1) {
-        this.angle1 = angle1;
-    }
-
-    public double getAngle2() {
-        return angle2;
-    }
-
-    public void setAngle2(double angle2) {
-        this.angle2 = angle2;
     }
 }

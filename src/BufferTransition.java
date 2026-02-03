@@ -1,16 +1,15 @@
 public class BufferTransition {
     private State currentState;
-    private Action action;
+    private int actionIndex;
     private double reward;
     private State nextState;
 
-    public BufferTransition(State currentState, Action action, double reward, State nextState) {
+    public BufferTransition(State currentState, int actionIndex, double reward, State nextState) {
         this.currentState = currentState;
-        this.action = action;
+        this.actionIndex = actionIndex;
         this.reward = reward;
         this.nextState = nextState;
     }
-
 
     public State getCurrentState() {
         return currentState;
@@ -20,12 +19,12 @@ public class BufferTransition {
         this.currentState = currentState;
     }
 
-    public Action getAction() {
-        return action;
+    public int getActionIndex() {
+        return actionIndex;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void setActionIndex(int actionIndex) {
+        this.actionIndex = actionIndex;
     }
 
     public double getReward() {

@@ -3,7 +3,6 @@ import java.util.Random;
 public class Agent {
     private static Agent agent;
     private State currentState;
-    private Action[] actions;
     private Arm arm;
 
     private Network mainNetwork;
@@ -15,48 +14,49 @@ public class Agent {
     private float epsilon = 1;
     private Random random = new Random();
 
-    private Agent(){
+    private Agent(Arm arm){
         currentState = null;
+        this.arm = arm;
         //should change to make scalable with more than 2 DOF
-        mainNetwork = new Network(4,4,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
-        actions = Action.values();
+        mainNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
     }
 
-    public static Agent getAgent(){
+    public static Agent getAgent(Arm arm){
         if(agent == null) {
-           agent = new Agent();
+           agent = new Agent(arm);
         }
         return agent;
     }
 
 
 
-    public Action makeAction(){//returns QvalueIndexPair of chosen action
+    public int makeAction(){//returns QvalueIndexPair of chosen action
         return chooseBestAction();
     }
 
 
-    private Action chooseBestAction(){
-        //maybe should change...doesn't look really pretty and isn't scalable with more than 2 DOF
-        double[] inputs = {currentState.getAngle1(),currentState.getAngle2(),currentState.getTargetX(),currentState.getTargetY()};
+    private int chooseBestAction(){
+        //Really ugly code, don't like it might replace
+        double[] inputs = new double[arm.getArmAngles().length+2];
+        System.arraycopy(currentState.getAngles(), 0, inputs, 0, inputs.length-2);//more efficient copying
+        inputs[inputs.length-2] = currentState.getTargetX();
+        inputs[inputs.length-2] = currentState.getTargetY();
         double[] outputQValues =  mainNetwork.forwardPass(inputs);
         return chooseExploreExploit(outputQValues);
     }
 
 
-    private Action chooseExploreExploit(double[] actionQValues){
+    private int chooseExploreExploit(double[] actionQValues){
         double num = random.nextDouble();
-        Action action;
+        int index;
         if(num >= epsilon){
-            int index = findIndexOfMax(actionQValues);
-            action = actions[index];
+            index = findIndexOfMax(actionQValues);
         }
         else{
-            int index = random.nextInt(actions.length);
-            action = actions[index];
+            index = random.nextInt(arm.getArmAngles().length*2);
         }
         epsilon *= 0.995f;
-        return action;
+        return index;
     }
 
     private static int findIndexOfMax(double[] numbers) {
@@ -74,8 +74,8 @@ public class Agent {
 
 
 
-    public void addToReplayBuffer(State currentState, Action action, double reward, State nextState){
-        replayBuffer.addToReplayBuffer(currentState,action,reward,nextState);
+    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState){
+        replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState);
     }
 
     public Arm getArm(){

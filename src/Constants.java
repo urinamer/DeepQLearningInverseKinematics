@@ -8,7 +8,9 @@ public class Constants {
 
     public static double STEP_SIZE = 1;
     public  static double REWARD = 1;
-    public static double HITTING_WALLS_PENALTY = -1;
+    public static double BIG_REWARD = 10;
+    public static double PUNISHMENT = -1;
+    public static double HITTING_WALLS_PENALTY = -0.01;
 
 
     public static double BIAS_STARTER_VALUE = 0.01;
