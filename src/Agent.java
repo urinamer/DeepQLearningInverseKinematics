@@ -4,6 +4,7 @@ public class Agent {
     private static Agent agent;
     private State currentState;
     private Action[] actions;
+    private Arm arm;
 
     private Network mainNetwork;
     private Network targetNetwork;
@@ -75,6 +76,10 @@ public class Agent {
 
     public void addToReplayBuffer(State currentState, Action action, double reward, State nextState){
         replayBuffer.addToReplayBuffer(currentState,action,reward,nextState);
+    }
+
+    public Arm getArm(){
+        return arm;
     }
     public State getCurrentState() {
         return currentState;

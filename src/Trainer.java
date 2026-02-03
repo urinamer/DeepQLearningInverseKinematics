@@ -1,9 +1,11 @@
 public class Trainer {
     Environment environment;
+    Arm arm;
 
 
-    public Trainer() {
+    public Trainer(Arm arm) {
         this.environment = new Environment();
+        this.arm = arm;
     }
 
     public void trainModel(int numOfEpisodes){
