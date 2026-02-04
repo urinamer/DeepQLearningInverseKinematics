@@ -30,6 +30,24 @@ public class Arm {
         basePointY = 0;
     }
 
+
+    public boolean calculateForwardKinematics(double[] angles){//returns is legal and updates currentState
+        double currentX = getBasePointX();
+        double currentY = getBasePointY();
+        //for more than 2 DOF
+        for(int i =0; i < getNumOfLinks(); i++){
+            currentX += getLinkLengths()[i]*Math.cos(angles[i]);
+            currentY += getLinkLengths()[i]*Math.sin(angles[i]);
+        }
+
+        if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > 0 && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > 0){
+            this.armAngles = angles;
+            return true;
+        }
+        return false;
+
+    }
+
     public double getBasePointX() {
         return basePointX;
     }
@@ -62,6 +80,9 @@ public class Arm {
         return armAngles;
     }
 
+    public void setArmAngles(double[] angles){
+        this.armAngles = angles;
+    }
     public double getHandPointY() {
         return handPointY;
     }

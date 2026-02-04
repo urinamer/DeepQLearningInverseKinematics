@@ -17,6 +17,7 @@ public class Agent {
     private Agent(Arm arm){
         currentState = null;
         this.arm = arm;
+        replayBuffer = new ReplayBuffer();
         //should change to make scalable with more than 2 DOF
         mainNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
     }
