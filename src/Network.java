@@ -1,6 +1,10 @@
 public class Network {
 
     private Neuron[][] layers;
+    private int numOfOutputs;
+    private int numOfInputs;
+    private int numOfLayers;
+    private int numOfNeuronsInLayer;
 
     public Network(int numOfInputs,int numOfOutputs,int numOfLayers,int numOfNeuronsInLayer){
         layers = new Neuron[numOfLayers][];
@@ -42,5 +46,46 @@ public class Network {
     }
 
 
+    public void copyNetwork(Network src){//copies src weight values to this network
+        for (int i = 0; i < numOfLayers-1; i++) {
+            for (int j = 0; j < numOfNeuronsInLayer; j++) {
+                this.layers[i][j].setBias(src.layers[i][j].getBias());
+                for(int k = 0; k < layers[i][j].getNumOfWeights(); k++){
+                    this.layers[i][j].getWeights()[k] = src.layers[i][j].getWeights()[k];
+                }
+            }
+        }
+    }
 
+    public int getNumOfLayers() {
+        return numOfLayers;
+    }
+
+    public void setNumOfLayers(int numOfLayers) {
+        this.numOfLayers = numOfLayers;
+    }
+
+    public int getNumOfNeuronsInLayer() {
+        return numOfNeuronsInLayer;
+    }
+
+    public void setNumOfNeuronsInLayer(int numOfNeuronsInLayer) {
+        this.numOfNeuronsInLayer = numOfNeuronsInLayer;
+    }
+
+    public int getNumOfInputs() {
+        return numOfInputs;
+    }
+
+    public void setNumOfInputs(int numOfInputs) {
+        this.numOfInputs = numOfInputs;
+    }
+
+    public int getNumOfOutputs() {
+        return numOfOutputs;
+    }
+
+    public void setNumOfOutputs(int numOfOutputs) {
+        this.numOfOutputs = numOfOutputs;
+    }
 }

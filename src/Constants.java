@@ -6,7 +6,8 @@ public class Constants {
     public static final double ANGLE_CHANGE_STEP = 10;
 
     public static final int MAX_STEPS_PER_EPISODE = 100;
-
+    public static final int NUM_OF_TRANSITIONS = 10;
+    public static final int MIN_NUM_OF_TRANSITIONS = 100;
 
 
     public static final double STEP_SIZE = 1;

@@ -79,6 +79,13 @@ public class Agent {
         replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState);
     }
 
+    public void learn(){
+        double sum = 0;
+        for(int i = 0; i < Constants.NUM_OF_TRANSITIONS; i++){
+
+        }
+    }
+
     public Arm getArm(){
         return arm;
     }
@@ -89,4 +96,6 @@ public class Agent {
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
     }
+
+
 }
