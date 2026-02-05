@@ -9,14 +9,21 @@ public class Trainer {
     }
 
     public void trainModel(int numOfEpisodes){
+        boolean done = false;
         for (int i = 0; i < numOfEpisodes; i++) {
-            environment.initNewEpisode();
-            int actionIndex = environment.getAgent().makeAction();
-            State currentState = environment.getAgent().getCurrentState();
-            double reward = environment.step(actionIndex);
-            State nextState = environment.getAgent().getCurrentState();
+            int countSteps = Constants.MAX_STEPS_PER_EPISODE;
+            while (!done || countSteps == 0) {
+                environment.initNewEpisode();
+                int actionIndex = environment.getAgent().makeAction();
+                State currentState = environment.getAgent().getCurrentState();
+                double reward = environment.step(actionIndex);
+                State nextState = environment.getAgent().getCurrentState();
 
-            environment.getAgent().addToReplayBuffer(currentState,actionIndex,reward,nextState);
+                done = reward == Constants.REACHED_POINT_REWARD;
+                environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState);
+
+                countSteps--;
+            }
         }
     }
 }

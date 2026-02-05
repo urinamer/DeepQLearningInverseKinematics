@@ -57,8 +57,12 @@ public class Environment {
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
+
+        if(newDistance <= Constants.DISTANCE_MIN_MARGIN)
+            return Constants.REACHED_POINT_REWARD;
         if(currDistance  > newDistance)
             return Constants.REWARD;
+
         return Constants.PUNISHMENT;
 
     }
