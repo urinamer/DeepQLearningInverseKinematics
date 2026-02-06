@@ -22,6 +22,10 @@ public class ReplayBuffer {
         size++;
     }
 
+    public void deleteOldestFromBuffer(){
+
+    }
+
 
     public BufferTransition getRandomFromReplayBuffer(){
         return replayBuffer.get(random.nextInt(size));

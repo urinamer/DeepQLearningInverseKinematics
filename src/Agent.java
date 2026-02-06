@@ -20,6 +20,8 @@ public class Agent {
         replayBuffer = new ReplayBuffer();
         //should change to make scalable with more than 2 DOF
         mainNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
+        targetNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);
+        targetNetwork.copyNetwork(mainNetwork);
     }
 
     public static Agent getAgent(Arm arm){
@@ -37,13 +39,17 @@ public class Agent {
 
 
     private int chooseBestAction(){
-        //Really ugly code, don't like it might replace
-        double[] inputs = new double[arm.getArmAngles().length+2];
+        double[] inputs = convertFromStateToInputs(agent.currentState);
+        double[] outputQValues =  mainNetwork.forwardPass(inputs);
+        return chooseExploreExploit(outputQValues);
+    }
+
+    private double[] convertFromStateToInputs(State state){
+        double[] inputs = new double[state.getAngles().length+2];
         System.arraycopy(currentState.getAngles(), 0, inputs, 0, inputs.length-2);//more efficient copying
         inputs[inputs.length-2] = currentState.getTargetX();
         inputs[inputs.length-2] = currentState.getTargetY();
-        double[] outputQValues =  mainNetwork.forwardPass(inputs);
-        return chooseExploreExploit(outputQValues);
+        return inputs;
     }
 
 
@@ -75,16 +81,33 @@ public class Agent {
 
 
 
+    public void updateTargetNetwork(){
+        targetNetwork.copyNetwork(mainNetwork);
+    }
+
     public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState){
         replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState);
     }
 
     public void learn(){
         double sum = 0;
-        for(int i = 0; i < Constants.NUM_OF_TRANSITIONS; i++){
+        for(int i = 0; i < Constants.NUM_OF_TRANSITIONS_PER_CALCULATION; i++){
+            //Maybe shouldn't have connection from agent to BufferTransition class.
+            BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
+            double[] mainInputs = convertFromStateToInputs(bufferTransition.getCurrentState());
+            double[] targetInputs = convertFromStateToInputs(bufferTransition.getNextState());
+            double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
+
+            int indexOfTargetMax = findIndexOfMax(targetInputs);
+            double targetQValue = targetNetwork.forwardPass(targetInputs)[indexOfTargetMax];
+
+            double lossDerivative = 2*(preQValue-targetQValue);
+
 
         }
     }
+
+
 
     public Arm getArm(){
         return arm;

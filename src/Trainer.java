@@ -9,11 +9,10 @@ public class Trainer {
     }
 
     public void trainModel(int numOfEpisodes){
-
+        int countSteps = 0;
         for (int i = 0; i < numOfEpisodes; i++) {
             boolean done = false;
-            int countSteps = Constants.MAX_STEPS_PER_EPISODE;
-            while (!done || countSteps == 0) {
+            while (!done || countSteps % Constants.MAX_STEPS_PER_EPISODE == 0) {
                 environment.initNewEpisode();
                 int actionIndex = environment.getAgent().makeAction();
                 State currentState = environment.getAgent().getCurrentState();
@@ -21,11 +20,12 @@ public class Trainer {
                 State nextState = environment.getAgent().getCurrentState();
 
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState);
-
+                if(countSteps % Constants.STEPS_TO_UPDATE_TARGET_NETWORK == 0)
+                    environment.getAgent().updateTargetNetwork();
 
 
                 done = reward == Constants.REACHED_POINT_REWARD;
-                countSteps--;
+                countSteps++;
             }
         }
     }
