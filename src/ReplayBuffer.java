@@ -22,9 +22,7 @@ public class ReplayBuffer {
         size++;
     }
 
-    public void deleteOldestFromBuffer(){
-
-    }
+    public void deleteOldestFromBuffer(){}
 
 
     public BufferTransition getRandomFromReplayBuffer(){

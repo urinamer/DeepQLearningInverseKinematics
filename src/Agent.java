@@ -99,9 +99,13 @@ public class Agent {
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             int indexOfTargetMax = findIndexOfMax(targetInputs);
-            double targetQValue = targetNetwork.forwardPass(targetInputs)[indexOfTargetMax];
+            double targetQValue = targetNetwork.forwardPass(targetInputs)[indexOfTargetMax] + bufferTransition.getReward();
 
-            double lossDerivative = 2*(preQValue-targetQValue);
+            double outputLayerDelta = 2*(preQValue-targetQValue);
+            double[][][][] derivatives = mainNetwork.getDerivatives(mainInputs,outputLayerDelta);
+            double[][][] weightGradients = derivatives[0];
+            double[][] biasGradients = derivatives[1][0];
+
 
 
         }

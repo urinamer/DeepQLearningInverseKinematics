@@ -42,6 +42,20 @@ public class Neuron {
         return 0;
     }
 
+    public static double activationFunctionDer(double input){
+        if (input >= 0)
+            return 1;
+        return 0;
+    }
+
+    public double calculateSumErrors(double[] deltas){
+        double sum = 0;
+        for(int i =0; i < numOfWeights; i++){
+            sum += weights[i]*deltas[i];
+        }
+        return sum;
+    }
+
     public double[] getWeights() {
         return weights;
     }
