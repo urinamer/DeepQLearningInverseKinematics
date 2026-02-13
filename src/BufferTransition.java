@@ -2,13 +2,15 @@ public class BufferTransition {
     private State currentState;
     private int actionIndex;
     private double reward;
+    private boolean isDone;// don't forget about that
     private State nextState;
 
-    public BufferTransition(State currentState, int actionIndex, double reward, State nextState) {
+    public BufferTransition(State currentState, int actionIndex, double reward, State nextState,boolean isDone) {
         this.currentState = currentState;
         this.actionIndex = actionIndex;
         this.reward = reward;
         this.nextState = nextState;
+        this.isDone = isDone;
     }
 
     public State getCurrentState() {
@@ -41,6 +43,14 @@ public class BufferTransition {
 
     public void setNextState(State nextState) {
         this.nextState = nextState;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }
 

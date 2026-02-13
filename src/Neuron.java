@@ -10,7 +10,7 @@ public class Neuron {
     private final int numOfWeights;
     private double bias;//Maybe should be float
 
-
+    private double sumWeights;
     public Neuron(int numOfWeights) {
 
         Random random = new Random();

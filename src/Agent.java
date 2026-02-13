@@ -79,18 +79,15 @@ public class Agent {
         return maxIndex;
     }
 
-
-
     public void updateTargetNetwork(){
         targetNetwork.copyNetwork(mainNetwork);
     }
 
-    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState){
-        replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState);
+    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState,boolean isDone){
+        replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState,isDone);
     }
 
     public void learn(){
-        double sum = 0;
         for(int i = 0; i < Constants.NUM_OF_TRANSITIONS_PER_CALCULATION; i++){
             //Maybe shouldn't have connection from agent to BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
@@ -99,13 +96,15 @@ public class Agent {
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             int indexOfTargetMax = findIndexOfMax(targetInputs);
-            double targetQValue = targetNetwork.forwardPass(targetInputs)[indexOfTargetMax] + bufferTransition.getReward();
+            //Bellman equation. Only add maxArg when not in terminal state
+            double targetQValue = bufferTransition.getReward() +
+                    (bufferTransition.isDone() ? 0 :
+                            Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[indexOfTargetMax]);
 
             double outputLayerDelta = 2*(preQValue-targetQValue);
             double[][][][] derivatives = mainNetwork.getDerivatives(mainInputs,outputLayerDelta);
             double[][][] weightGradients = derivatives[0];
             double[][] biasGradients = derivatives[1][0];
-
 
 
         }

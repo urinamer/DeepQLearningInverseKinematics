@@ -62,6 +62,7 @@ public class Network {
     //uses backpropagation to get all deltas in a transition.
     // returns an array containing the deltas for the weights and deltas for the biases
     public double[][][][] getDerivatives(double[] rawInputState,double initialLoss) {
+        //should make buffers instead of creating a new matrix everytime
         double[][] deltas = new double[layers.length][];
         double[][][] weightsGradients = new double[layers.length][][];
         double[][] biasGradients = new double[layers.length][];

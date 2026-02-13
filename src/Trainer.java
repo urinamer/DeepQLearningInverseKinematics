@@ -18,13 +18,14 @@ public class Trainer {
                 State currentState = environment.getAgent().getCurrentState();
                 double reward = environment.step(actionIndex);
                 State nextState = environment.getAgent().getCurrentState();
+                done = reward == Constants.REACHED_POINT_REWARD;
 
-                environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState);
+                environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
                 if(countSteps % Constants.STEPS_TO_UPDATE_TARGET_NETWORK == 0)
                     environment.getAgent().updateTargetNetwork();
 
 
-                done = reward == Constants.REACHED_POINT_REWARD;
+
                 countSteps++;
             }
         }
