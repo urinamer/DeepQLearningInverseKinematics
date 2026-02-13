@@ -102,12 +102,13 @@ public class Agent {
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[indexOfTargetMax]);
 
             double outputLayerDelta = 2*(preQValue-targetQValue);
-            double[][][][] derivatives = mainNetwork.getDerivatives(mainInputs,outputLayerDelta);
-            double[][][] weightGradients = derivatives[0];
-            double[][] biasGradients = derivatives[1][0];
+            mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
+
 
 
         }
+
+        mainNetwork.updateWeights(Constants.NUM_OF_TRANSITIONS_PER_CALCULATION);
     }
 
 

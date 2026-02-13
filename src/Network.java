@@ -1,17 +1,33 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Network {
 
     private Neuron[][] layers;
     private double[][] layerOutputs;
     private int numOfInputs;
 
+    double[][] deltas;
+    double[][][] sumWeightsGradients;
+    double[][] sumBiasGradients;
 
     public Network(int numOfInputs,int numOfOutputs,int numOfLayers,int numOfNeuronsInLayer){
         this.numOfInputs = numOfInputs;
         layers = new Neuron[numOfLayers][];
         layerOutputs = new double[layers.length][];
+        sumWeightsGradients = new double[layers.length][][];
+        sumBiasGradients = new double[layers.length][];
+        deltas = new double[layers.length][];
+
         for (int i = 0; i < numOfLayers-1; i++) {
             layers[i] = new Neuron[numOfNeuronsInLayer];
             layerOutputs[i] = new double[numOfNeuronsInLayer];
+            deltas[i] = new double[layers[i].length];
+
+            int numInputs = (i == 0) ? numOfInputs : layers[i - 1].length;
+            sumWeightsGradients[i] = new double[layers[i].length][numInputs];
+            sumBiasGradients[i] = new double[layers[i].length];
+
             for (int j = 0; j < numOfNeuronsInLayer; j++) {
                 Neuron neuron;
                 if(j == 0){
@@ -20,6 +36,7 @@ public class Network {
                 else {
                     neuron = new Neuron(numOfNeuronsInLayer);
                 }
+
                 layers[i][j] = neuron;
             }
         }
@@ -61,44 +78,49 @@ public class Network {
 
     //uses backpropagation to get all deltas in a transition.
     // returns an array containing the deltas for the weights and deltas for the biases
-    public double[][][][] getDerivatives(double[] rawInputState,double initialLoss) {
-        //should make buffers instead of creating a new matrix everytime
-        double[][] deltas = new double[layers.length][];
-        double[][][] weightsGradients = new double[layers.length][][];
-        double[][] biasGradients = new double[layers.length][];
-
+    public void backpropagation(double[] rawInputState,double initialLoss,int actionIndex) {
+        //propagate backwards
         for (int i = layers.length - 1; i >= 0; i--) {
-            int numInputs = (i == 0) ? numOfInputs : layers[i - 1].length;
-            deltas[i] = new double[layers[i].length];
-            weightsGradients[i] = new double[layers[i].length][numInputs];
-            biasGradients[i] = new double[layers[i].length];
             for (int j = 0; j < layers[i].length; j++) {
                 //calculate Error signal
-                biasGradients[i][j] = initialLoss;
                 double error;
                 if (i == layers.length - 1) {
-                    error = initialLoss;
+                    error = j == actionIndex ? initialLoss : 0;
                 } else {
                     //pull error from layer ahead
                     error = layers[i][j].calculateSumErrors(deltas[i + 1]);
                 }
-                deltas[i][j] = error * Neuron.activationFunctionDer(layerOutputs[i][j]);// all error signals
-                biasGradients[i][j] = deltas[i][j];
+                deltas[i][j] = error * Neuron.activationFunctionDer(layerOutputs[i][j]);// get delta for current neuron,store it to pull in the next layer
+                sumBiasGradients[i][j] += deltas[i][j];//added value to sum
 
 
-                for (int k = 0; k < numInputs; k++) {
+                for (int k = 0; k < sumWeightsGradients[i][j].length; k++) {
                     double inputVal = (i == 0) ? rawInputState[k] : layerOutputs[i - 1][k];
-                    weightsGradients[i][j][k] = deltas[i][j] * inputVal;
+                    sumWeightsGradients[i][j][k] += deltas[i][j] * inputVal;
                 }
             }
         }
-        return new double[][][][]{weightsGradients, {biasGradients}};
     }
 
 
 
-    public void updateWeights(double[][][] totalGradient){
-
+    public void updateWeights(int numOfTransitions){
+        for (int i = 0; i < layers.length; i++) {
+            for (int j = 0; j < layers[i].length; j++) {
+                double newBias = layers[i][j].getBias() - Constants.LEARNING_RATE * (sumBiasGradients[i][j] / numOfTransitions);//update bias based on average der
+                layers[i][j].setBias(newBias);
+                for(int k = 0; k < layers[i][j].getNumOfWeights(); k++){
+                    double newWeight = layers[i][j].getWeights()[k] - Constants.LEARNING_RATE * (sumWeightsGradients[i][j][k] / numOfTransitions);//update weight based on average der
+                    layers[i][j].getWeights()[k] = newWeight;
+                }
+                Arrays.fill(sumWeightsGradients[i][j],0);
+            }
+            Arrays.fill(sumBiasGradients[i],0);
+        }
     }
+
+
+
+
 }
 
