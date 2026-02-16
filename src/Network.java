@@ -37,6 +37,7 @@ public class Network {
                     neuron = new Neuron(numOfNeuronsInLayer);
                 }
 
+
                 layers[i][j] = neuron;
             }
         }
@@ -57,7 +58,7 @@ public class Network {
                     output = Neuron.calculateActivationFunction(output);
                 }
                 layerOutputs[j] = output;
-                this.layerOutputs[i][j] = output;//without activation function
+                this.layerOutputs[i][j] = output;
             }
             currentInputs = layerOutputs;
         }
@@ -65,6 +66,7 @@ public class Network {
     }
 
 
+    //might want to do soft copy instead of hard copy.
     public void copyNetwork(Network src){//copies src weight values to this network
         for (int i = 0; i < layers.length; i++) {
             for (int j = 0; j < layers[i].length; j++) {
@@ -93,7 +95,6 @@ public class Network {
                 deltas[i][j] = error * Neuron.activationFunctionDer(layerOutputs[i][j]);// get delta for current neuron,store it to pull in the next layer
                 sumBiasGradients[i][j] += deltas[i][j];//added value to sum
 
-
                 for (int k = 0; k < sumWeightsGradients[i][j].length; k++) {
                     double inputVal = (i == 0) ? rawInputState[k] : layerOutputs[i - 1][k];
                     sumWeightsGradients[i][j][k] += deltas[i][j] * inputVal;
@@ -117,6 +118,12 @@ public class Network {
             }
             Arrays.fill(sumBiasGradients[i],0);
         }
+    }
+
+
+    public void printGradients(){
+        System.out.println(Arrays.deepToString(sumWeightsGradients));
+        System.out.println(Arrays.deepToString(sumBiasGradients));
     }
 
 

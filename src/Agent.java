@@ -88,7 +88,7 @@ public class Agent {
     }
 
     public void learn(){
-        for(int i = 0; i < Constants.NUM_OF_TRANSITIONS_PER_CALCULATION; i++){
+        for(int i = 0; i < Constants.BATCH_SIZE; i++){
             //Maybe shouldn't have connection from agent to BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
             double[] mainInputs = convertFromStateToInputs(bufferTransition.getCurrentState());
@@ -106,7 +106,7 @@ public class Agent {
 
         }
 
-        mainNetwork.updateWeights(Constants.NUM_OF_TRANSITIONS_PER_CALCULATION);
+        mainNetwork.updateWeights(Constants.BATCH_SIZE);
     }
 
 

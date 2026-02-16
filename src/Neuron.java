@@ -9,17 +9,18 @@ public class Neuron {
     private double[] weights;
     private final int numOfWeights;
     private double bias;//Maybe should be float
+    Random random = new Random();
 
-    private double sumWeights;
     public Neuron(int numOfWeights) {
 
-        Random random = new Random();
+
 
         weights = new double[numOfWeights];
         this.numOfWeights = numOfWeights;
+        double standardDeviation = Math.sqrt(2.0/numOfWeights);
 
         for (int i =0; i < numOfWeights; i++){
-            weights[i] = random.nextDouble();//Not sure if its correct
+            weights[i] = random.nextGaussian() * standardDeviation;
         }
         bias = Constants.BIAS_STARTER_VALUE;
     }
