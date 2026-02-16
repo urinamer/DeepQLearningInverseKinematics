@@ -9,6 +9,8 @@ public class Constants {
     public static final int NUM_OF_TRANSITIONS_PER_CALCULATION = 10;
     public static final int MIN_NUM_OF_TRANSITIONS = 100;
     public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 10;
+    public static final int REPLAY_BUFFER_MAX_SIZE = 1000;
+    public static final double REPLAY_BUFFER_FRACTION_REMOVE = 0.01;
 
 
     public static final double STEP_SIZE = 1;

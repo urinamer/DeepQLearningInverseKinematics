@@ -21,9 +21,13 @@ public class Trainer {
                 done = reward == Constants.REACHED_POINT_REWARD;
 
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
+
+                if(countSteps > Constants.MIN_NUM_OF_TRANSITIONS){//wait for
+                    environment.getAgent().learn();//use the transitions to update the weights abd biases
+                }
+
                 if(countSteps % Constants.STEPS_TO_UPDATE_TARGET_NETWORK == 0)
                     environment.getAgent().updateTargetNetwork();
-
 
 
                 countSteps++;

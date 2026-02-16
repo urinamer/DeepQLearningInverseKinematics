@@ -104,8 +104,6 @@ public class Agent {
             double outputLayerDelta = 2*(preQValue-targetQValue);
             mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
 
-
-
         }
 
         mainNetwork.updateWeights(Constants.NUM_OF_TRANSITIONS_PER_CALCULATION);
