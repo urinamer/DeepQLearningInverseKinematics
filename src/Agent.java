@@ -61,7 +61,8 @@ public class Agent {
         else{
             index = random.nextInt(arm.getArmAngles().length*2);
         }
-        epsilon *= 0.995f;
+        if(epsilon > 0.1f)
+            epsilon *= Constants.EPSILON_DECAY;
         return index;
     }
 

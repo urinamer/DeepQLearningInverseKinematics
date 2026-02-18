@@ -8,8 +8,11 @@ public class Trainer {
         this.arm = arm;
     }
 
+    public void loadModel(){
+        environment.getAgent().loadNetworkFromFile();//load model
+    }
+
     public void trainModel(int numOfEpisodes){
-        environment.getAgent().loadNetworkFromFile();
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
             int countSteps = 0;
@@ -35,5 +38,25 @@ public class Trainer {
             }
         }
         environment.getAgent().saveNetworkToFile();
+    }
+
+
+
+    public double testModel(int numOfEpisodes){
+        int sumSteps = 0;
+        for (int i = 0; i < numOfEpisodes; i++) {
+            environment.initNewEpisode();
+            int countSteps = 0;
+            boolean done = false;
+            while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
+                int actionIndex = environment.getAgent().makeAction();
+                double reward = environment.step(actionIndex);
+                done = reward == Constants.REACHED_POINT_REWARD;
+
+                countSteps++;
+            }
+            sumSteps += countSteps;
+        }
+        return (double) sumSteps /numOfEpisodes;
     }
 }
