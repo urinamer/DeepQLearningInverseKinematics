@@ -114,8 +114,10 @@ public class Network {
 
     private double calculateSumErrors(int i,int j){
         double sum = 0;
+        int index = 0;
         for(Neuron neuron: layers[i+1]){
-            sum += neuron.getWeights()[j]*deltas[i+1][j];
+            sum += neuron.getWeights()[j]*deltas[i+1][index];
+            index++;
         }
         return sum;
     }
