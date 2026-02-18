@@ -13,8 +13,6 @@ public class Neuron {
 
     public Neuron(int numOfWeights) {
 
-
-
         weights = new double[numOfWeights];
         this.numOfWeights = numOfWeights;
         double standardDeviation = Math.sqrt(2.0/numOfWeights);
@@ -49,13 +47,7 @@ public class Neuron {
         return 0;
     }
 
-    public double calculateSumErrors(double[] deltas){
-        double sum = 0;
-        for(int i =0; i < numOfWeights; i++){
-            sum += weights[i]*deltas[i];
-        }
-        return sum;
-    }
+
 
     public double[] getWeights() {
         return weights;

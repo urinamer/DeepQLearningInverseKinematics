@@ -11,6 +11,8 @@ public class Network {
     double[][][] sumWeightsGradients;
     double[][] sumBiasGradients;
 
+
+    //this sucks, you can do better. make it more generic and less monkey brain
     public Network(int numOfInputs,int numOfOutputs,int numOfLayers,int numOfNeuronsInLayer){
         this.numOfInputs = numOfInputs;
         layers = new Neuron[numOfLayers][];
@@ -36,14 +38,20 @@ public class Network {
                 else {
                     neuron = new Neuron(numOfNeuronsInLayer);
                 }
-
-
                 layers[i][j] = neuron;
             }
         }
 
+        layers[numOfLayers-1] =  new Neuron[numOfOutputs];
+        layerOutputs[numOfLayers-1] = new double[numOfNeuronsInLayer];
+        deltas[numOfLayers-1] = new double[layers[numOfLayers-1].length];
+
+        int numInputs = layers[numOfLayers-1].length;
+        sumWeightsGradients[numOfLayers-1] = new double[layers[numOfLayers-1].length][numInputs];
+        sumBiasGradients[numOfLayers-1] = new double[layers[numOfLayers-1].length];
+
         for (int k = 0; k < numOfOutputs;k++){
-            Neuron outputNeuron = new Neuron(numOfOutputs);
+            Neuron outputNeuron = new Neuron(numOfNeuronsInLayer);
             layers[numOfLayers-1][k] = outputNeuron;
         }
     }
@@ -90,7 +98,7 @@ public class Network {
                     error = j == actionIndex ? initialLoss : 0;
                 } else {
                     //pull error from layer ahead
-                    error = layers[i][j].calculateSumErrors(deltas[i + 1]);
+                    error = calculateSumErrors(i,j);
                 }
                 deltas[i][j] = error * Neuron.activationFunctionDer(layerOutputs[i][j]);// get delta for current neuron,store it to pull in the next layer
                 sumBiasGradients[i][j] += deltas[i][j];//added value to sum
@@ -101,6 +109,15 @@ public class Network {
                 }
             }
         }
+    }
+
+
+    private double calculateSumErrors(int i,int j){
+        double sum = 0;
+        for(Neuron neuron: layers[i+1]){
+            sum += neuron.getWeights()[j]*deltas[i+1][j];
+        }
+        return sum;
     }
 
 

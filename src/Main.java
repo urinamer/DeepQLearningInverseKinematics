@@ -7,6 +7,7 @@ public class Main {
         network.printGradients();
         double[] state = {10,20,5,4};
         network.backpropagation(state,10,2);
+        network.printGradients();
 
     }
 }
