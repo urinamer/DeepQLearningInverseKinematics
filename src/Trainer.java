@@ -9,11 +9,12 @@ public class Trainer {
     }
 
     public void trainModel(int numOfEpisodes){
-        int countSteps = 0;
+
         for (int i = 0; i < numOfEpisodes; i++) {
+            environment.initNewEpisode();
+            int countSteps = 0;
             boolean done = false;
-            while (!done || countSteps % Constants.MAX_STEPS_PER_EPISODE == 0) {
-                environment.initNewEpisode();
+            while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
                 int actionIndex = environment.getAgent().makeAction();
                 State currentState = environment.getAgent().getCurrentState();
                 double reward = environment.step(actionIndex);
@@ -22,7 +23,7 @@ public class Trainer {
 
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
 
-                if(countSteps > Constants.MIN_NUM_OF_TRANSITIONS){//wait for
+                if(countSteps > Constants.MIN_NUM_OF_TRANSITIONS){//wait for replay buffer to fill up
                     environment.getAgent().learn();//use the transitions to update the weights abd biases
                 }
 

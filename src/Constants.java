@@ -4,8 +4,14 @@ public class Constants {
     public static final double MAX_ENVIRONMENT_X = 10;
     public static final double MAX_ENVIRONMENT_Y = 10;
     public static final double ANGLE_CHANGE_STEP = 10;
+    public static final double DEFAULT_LINK_LENGTH = 0.5;
+    public static final double DEFAULT_ANGLE = 90;
+    public static final int DEFAULT_NUM_OF_LINKS = 2;
 
-    public static final int MAX_STEPS_PER_EPISODE = 100;
+
+
+
+    public static final int MAX_STEPS_PER_EPISODE = 10000;
     public static final int BATCH_SIZE = 10;
     public static final int MIN_NUM_OF_TRANSITIONS = 100;
     public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 10;
@@ -28,6 +34,6 @@ public class Constants {
 
 
     public static final int NUM_OF_LAYERS = 3;
-    public static final int NUM_OF_NEURONS_IN_LAYER = 64;
+    public static final int NUM_OF_NEURONS_IN_LAYER = 5;
 
 }

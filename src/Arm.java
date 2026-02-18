@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Arm {
     private double basePointX;
     private double basePointY;
@@ -7,27 +9,39 @@ public class Arm {
     private double[] linkLengths;
     private double[] armAngles;
 
-    public Arm(double basePointX, double basePointY, double[] linkLengths, double[] armAngles) {
+    public Arm(double basePointX, double basePointY, int numOfLinks,double[] linkLengths, double[] armAngles) {
         this.basePointX = basePointX;
         this.basePointY = basePointY;
+        this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
         this.armAngles = armAngles;
     }
 
-    public Arm(double basePointX, double basePointY, double[] linkLengths) {
+    public Arm(double basePointX, double basePointY,int numOfLinks, double[] linkLengths) {
         this.basePointX = basePointX;
         this.basePointY = basePointY;
+        this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
     }
 
     public Arm(double basePointX, double basePointY) {
         this.basePointX = basePointX;
         this.basePointY = basePointY;
+        this.numOfLinks  = Constants.DEFAULT_NUM_OF_LINKS;
+        linkLengths= new double[numOfLinks];
+        Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
+        armAngles = new double[numOfLinks];
+        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
     }
 
     public Arm() {
         basePointX = 0;
         basePointY = 0;
+        this.numOfLinks  = Constants.DEFAULT_NUM_OF_LINKS;
+        linkLengths= new double[numOfLinks];
+        Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
+        armAngles = new double[numOfLinks];
+        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
     }
 
 

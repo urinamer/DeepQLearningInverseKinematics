@@ -13,8 +13,6 @@ public class Environment {
         double targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
 
 
-
-
         // need to check collisions between links with forward kinematics.
         if(agent.getCurrentState() == null){
             agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles()));

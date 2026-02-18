@@ -32,7 +32,7 @@ public class Network {
 
             for (int j = 0; j < numOfNeuronsInLayer; j++) {
                 Neuron neuron;
-                if(j == 0){
+                if(i == 0){
                     neuron = new Neuron(numOfInputs);
                 }
                 else {
@@ -46,7 +46,7 @@ public class Network {
         layerOutputs[numOfLayers-1] = new double[numOfNeuronsInLayer];
         deltas[numOfLayers-1] = new double[layers[numOfLayers-1].length];
 
-        int numInputs = layers[numOfLayers-1].length;
+        int numInputs = layers[numOfLayers-2].length;
         sumWeightsGradients[numOfLayers-1] = new double[layers[numOfLayers-1].length][numInputs];
         sumBiasGradients[numOfLayers-1] = new double[layers[numOfLayers-1].length];
 
@@ -141,7 +141,9 @@ public class Network {
 
 
     public void printGradients(){
+        System.out.println("weight gradients:");
         System.out.println(Arrays.deepToString(sumWeightsGradients));
+        System.out.println("bias gradients:");
         System.out.println(Arrays.deepToString(sumBiasGradients));
     }
 

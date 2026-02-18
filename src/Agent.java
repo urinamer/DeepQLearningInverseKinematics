@@ -96,7 +96,7 @@ public class Agent {
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             int indexOfTargetMax = findIndexOfMax(targetInputs);
-            //Bellman equation. Only add maxArg when not in terminal state
+            //Bellman equation. Only add maxArg when not in the terminal state
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() ? 0 :
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[indexOfTargetMax]);
