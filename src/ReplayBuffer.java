@@ -32,4 +32,8 @@ public class ReplayBuffer {
     public BufferTransition getRandomFromReplayBuffer(){
         return replayBuffer[random.nextInt(size)];
     }
+
+    public int getSize() {
+        return size;
+    }
 }

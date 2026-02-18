@@ -23,7 +23,7 @@ public class Trainer {
 
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
 
-                if(countSteps > Constants.MIN_NUM_OF_TRANSITIONS){//wait for replay buffer to fill up
+                if(environment.getAgent().getReplayBufferSize() > Constants.MIN_NUM_OF_TRANSITIONS){//wait for replay buffer to fill up
                     environment.getAgent().learn();//use the transitions to update the weights abd biases
                 }
 

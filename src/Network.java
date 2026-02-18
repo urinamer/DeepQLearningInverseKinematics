@@ -5,16 +5,15 @@ public class Network {
 
     private Neuron[][] layers;
     private double[][] layerOutputs;
-    private int numOfInputs;
+
 
     double[][] deltas;
     double[][][] sumWeightsGradients;
     double[][] sumBiasGradients;
 
 
-    //this sucks, you can do better. make it more generic and less monkey brain
+
     public Network(int numOfInputs,int numOfOutputs,int numOfLayers,int numOfNeuronsInLayer){
-        this.numOfInputs = numOfInputs;
         layers = new Neuron[numOfLayers][];
         layerOutputs = new double[layers.length][];
         sumWeightsGradients = new double[layers.length][][];
@@ -42,6 +41,8 @@ public class Network {
             }
         }
 
+
+        //this sucks, you can do better. make it more generic and less monkey brain
         layers[numOfLayers-1] =  new Neuron[numOfOutputs];
         layerOutputs[numOfLayers-1] = new double[numOfNeuronsInLayer];
         deltas[numOfLayers-1] = new double[layers[numOfLayers-1].length];
@@ -121,8 +122,6 @@ public class Network {
         }
         return sum;
     }
-
-
 
     public void updateWeights(int numOfTransitions){
         for (int i = 0; i < layers.length; i++) {

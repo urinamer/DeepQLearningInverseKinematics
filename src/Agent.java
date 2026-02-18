@@ -52,7 +52,6 @@ public class Agent {
         return inputs;
     }
 
-
     private int chooseExploreExploit(double[] actionQValues){
         double num = random.nextDouble();
         int index;
@@ -87,6 +86,11 @@ public class Agent {
         replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState,isDone);
     }
 
+    public int getReplayBufferSize(){
+        return replayBuffer.getSize();
+    }
+
+    //calculates the error and updates the weights and biases
     public void learn(){
         for(int i = 0; i < Constants.BATCH_SIZE; i++){
             //Maybe shouldn't have connection from agent to BufferTransition class.
@@ -109,11 +113,10 @@ public class Agent {
         mainNetwork.updateWeights(Constants.BATCH_SIZE);
     }
 
-
-
     public Arm getArm(){
         return arm;
     }
+
     public State getCurrentState() {
         return currentState;
     }
