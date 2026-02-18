@@ -1,5 +1,9 @@
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Network {
 
@@ -112,7 +116,6 @@ public class Network {
         }
     }
 
-
     private double calculateSumErrors(int i,int j){
         double sum = 0;
         int index = 0;
@@ -139,15 +142,53 @@ public class Network {
     }
 
 
+    public void save(){
+        try(PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.NETWORK_FILE))){
+            for (Neuron[] layer : layers) {
+                printWriter.print(layer.length + ", ");
+                for (int j = 0; j < layer.length; j++) {
+                    printWriter.print(layer[j].getBias() + ", ");
+                    for (int k = 0; k < layer[j].getNumOfWeights(); k++) {
+                        printWriter.print(layer[j].getWeights()[k]);
+                        if (j < layer.length - 1 || k < layer[j].getNumOfWeights() - 1) {
+                            printWriter.print(", ");
+                        }
+                    }
+                }
+                printWriter.println();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void load() {
+        try (Scanner scanner = new Scanner(new File(Constants.NETWORK_FILE))) {
+            for (Neuron[] layer : layers) {
+                if (!scanner.hasNextLine())
+                    break;
+
+                String[] data = scanner.nextLine().split(",");
+                int index = 1;
+                //should add layer size check
+                for (Neuron neuron : layer) {
+                    neuron.setBias(Double.parseDouble(data[index++]));
+                    for (int k = 0; k < neuron.getNumOfWeights(); k++) {
+                        neuron.getWeights()[k] = Double.parseDouble(data[index++]);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("loading network file failed");
+        }
+    }
+
     public void printGradients(){
         System.out.println("weight gradients:");
         System.out.println(Arrays.deepToString(sumWeightsGradients));
         System.out.println("bias gradients:");
         System.out.println(Arrays.deepToString(sumBiasGradients));
     }
-
-
-
 
 }
 

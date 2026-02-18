@@ -1,6 +1,8 @@
 public class Constants {
 
 
+    public static final String NETWORK_FILE = "Models/Network.csv";
+
     public static final double MAX_ENVIRONMENT_X = 10;
     public static final double MAX_ENVIRONMENT_Y = 10;
     public static final double ANGLE_CHANGE_STEP = 10;

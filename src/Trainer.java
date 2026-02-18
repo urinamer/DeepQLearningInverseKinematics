@@ -9,7 +9,7 @@ public class Trainer {
     }
 
     public void trainModel(int numOfEpisodes){
-
+        environment.getAgent().loadNetworkFromFile();
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
             int countSteps = 0;
@@ -34,5 +34,6 @@ public class Trainer {
                 countSteps++;
             }
         }
+        environment.getAgent().saveNetworkToFile();
     }
 }

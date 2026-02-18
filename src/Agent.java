@@ -113,6 +113,15 @@ public class Agent {
         mainNetwork.updateWeights(Constants.BATCH_SIZE);
     }
 
+
+    public void saveNetworkToFile(){
+        mainNetwork.save();
+    }
+
+    public void loadNetworkFromFile(){
+        mainNetwork.load();
+    }
+
     public Arm getArm(){
         return arm;
     }
