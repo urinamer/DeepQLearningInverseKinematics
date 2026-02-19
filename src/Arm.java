@@ -15,6 +15,7 @@ public class Arm {
         this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
         this.armAngles = armAngles;
+        calculateForwardKinematics(armAngles);
     }
 
     public Arm(double basePointX, double basePointY,int numOfLinks, double[] linkLengths) {
@@ -22,6 +23,7 @@ public class Arm {
         this.basePointY = basePointY;
         this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
+        calculateForwardKinematics(armAngles);
     }
 
     public Arm(double basePointX, double basePointY) {
@@ -32,6 +34,8 @@ public class Arm {
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
         armAngles = new double[numOfLinks];
         Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        calculateForwardKinematics(armAngles);
+
     }
 
     public Arm() {
@@ -41,6 +45,12 @@ public class Arm {
         linkLengths= new double[numOfLinks];
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
         armAngles = new double[numOfLinks];
+        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        calculateForwardKinematics(armAngles);
+
+    }
+
+    public void resetArm(){
         Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
     }
 
@@ -55,14 +65,19 @@ public class Arm {
         }
 
         if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > 0 && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > 0){
-            this.armAngles = angles;//update arm angles,because states angles pointer is pointing to the arm angles, the state is also updating.
+            //update arm angles,because states angles pointer is pointing to the arm angles, the state is also updating.
+            System.arraycopy(angles, 0, this.armAngles, 0, angles.length);
             this.handPointX = currentX;
             this.handPointY = currentY;
             return true;
         }
+
         return false;
 
     }
+
+
+
 
     public double getBasePointX() {
         return basePointX;
@@ -92,13 +107,11 @@ public class Arm {
         return linkLengths;
     }
 
+    //bad practice
     public double[] getArmAngles() {
         return armAngles;
     }
 
-    public void setArmAngles(double[] angles){
-        this.armAngles = angles;
-    }
     public double getHandPointY() {
         return handPointY;
     }

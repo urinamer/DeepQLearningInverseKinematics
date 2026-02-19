@@ -4,7 +4,7 @@ public class Constants {
     public static final String NETWORK_FILE = "Models/Network.csv";
 
     public static final double MAX_ENVIRONMENT_X = 10;
-    public static final double MAX_ENVIRONMENT_Y = 15;
+    public static final double MAX_ENVIRONMENT_Y = 11;
     public static final double ANGLE_CHANGE_STEP = 10;
 
     public static final double DEFAULT_X_BASE = 5;
@@ -30,7 +30,7 @@ public class Constants {
     public static final double DISTANCE_MIN_MARGIN = 0.1;
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
-    public static final double PUNISHMENT = -1;
+    public static final double PUNISHMENT = -0.01;
     public static final double HITTING_WALLS_PENALTY = -1;
 
 

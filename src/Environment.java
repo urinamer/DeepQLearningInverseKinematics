@@ -11,7 +11,7 @@ public class Environment {
     public void initNewEpisode(){
         double targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
         double targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
-
+        agent.getArm().resetArm();
 
         // need to check collisions between links with forward kinematics.
         if(agent.getCurrentState() == null){
@@ -46,13 +46,14 @@ public class Environment {
             reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state and
         }
 
+        System.out.println("angles " + getAgent().getCurrentState().getAngles()[0] + " , " + getAgent().getCurrentState().getAngles()[1]);
         return reward;
 
     }
 
 
     private double computeReward(double oldX, double oldY){
-        double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetY(),2));
+        double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
 

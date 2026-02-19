@@ -5,8 +5,7 @@ public class State {
     private double targetY;
 
     public State(double targetX, double targetY,double[] angles) {
-        this.angles = new double[angles.length];
-        System.arraycopy(angles, 0, this.angles, 0, angles.length);//more efficient copying
+        this.angles = angles;
         this.targetX = targetX;
         this.targetY = targetY;
     }
@@ -17,6 +16,7 @@ public class State {
         return new State(targetX,targetY,angles);
     }
 
+    //bad practice
     public double[] getAngles() {
         return angles;
     }
