@@ -55,7 +55,9 @@ public class Arm {
         }
 
         if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > 0 && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > 0){
-            this.armAngles = angles;
+            this.armAngles = angles;//update arm angles,because states angles pointer is pointing to the arm angles, the state is also updating.
+            this.handPointX = currentX;
+            this.handPointY = currentY;
             return true;
         }
         return false;

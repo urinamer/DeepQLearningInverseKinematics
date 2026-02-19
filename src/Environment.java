@@ -30,14 +30,16 @@ public class Environment {
         double angleStep = (actionIndex % 2 == 0) ? Constants.ANGLE_CHANGE_STEP : Constants.ANGLE_CHANGE_STEP*-1;//first action in pair is UP, second one is DOWN
         double[] anglesCopy = new double[agent.getCurrentState().getAngles().length];
         System.arraycopy(agent.getCurrentState().getAngles(), 0, anglesCopy, 0, anglesCopy.length);//more efficient copying
-        anglesCopy[jointIndex] += angleStep;//change angle
+        anglesCopy[jointIndex] += angleStep; //add angleStep based on the action chosen
+        anglesCopy[jointIndex] = (anglesCopy[jointIndex]%360 +360) %360;
+
+
         double oldX = agent.getArm().getHandPointX();
         double oldY = agent.getArm().getHandPointY();
         double reward;
 
         // need to check collisions between links with forward kinematics.
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            agent.getArm().setArmAngles(anglesCopy);//update arm angles,because states angles pointer is pointing to the arm angles, the state is also updating.
             reward = computeReward(oldX,oldY);
         }
         else{
