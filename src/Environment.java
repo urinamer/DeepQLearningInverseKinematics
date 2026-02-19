@@ -49,8 +49,6 @@ public class Environment {
     }
 
 
-
-
     private double computeReward(double oldX, double oldY){
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
@@ -65,7 +63,13 @@ public class Environment {
 
     }
 
-
+    public void printAnglesAndPositions(){
+        for (int i = 0; i < agent.getArm().getArmAngles().length; i++){
+            System.out.print(" Angle " + (i+1) + ": " + agent.getArm().getArmAngles()[i]);
+        }
+        System.out.println();
+        System.out.println("X: " + agent.getArm().getHandPointX() + " Y: " + agent.getArm().getHandPointY());
+    }
 
     public Agent getAgent() {
         return agent;

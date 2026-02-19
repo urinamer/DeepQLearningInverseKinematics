@@ -50,8 +50,12 @@ public class Trainer {
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
                 int actionIndex = environment.getAgent().makeAction();
+                System.out.println("joint: " + (1 + (actionIndex / 2)) +  " action index:" + actionIndex % 2);
                 double reward = environment.step(actionIndex);
+                System.out.println("reward: " + reward);
                 done = reward == Constants.REACHED_POINT_REWARD;
+
+                environment.printAnglesAndPositions();
 
                 countSteps++;
             }
