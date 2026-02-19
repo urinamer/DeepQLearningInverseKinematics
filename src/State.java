@@ -11,6 +11,12 @@ public class State {
         this.targetY = targetY;
     }
 
+
+
+    public State copy(){
+        return new State(targetX,targetY,angles);
+    }
+
     public double[] getAngles() {
         return angles;
     }

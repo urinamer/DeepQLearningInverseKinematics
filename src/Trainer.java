@@ -19,9 +19,9 @@ public class Trainer {
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
                 int actionIndex = environment.getAgent().makeAction();
-                State currentState = environment.getAgent().getCurrentState();
+                State currentState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
                 double reward = environment.step(actionIndex);
-                State nextState = environment.getAgent().getCurrentState();
+                State nextState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
                 done = reward == Constants.REACHED_POINT_REWARD;
 
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
