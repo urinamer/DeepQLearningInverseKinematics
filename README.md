@@ -5,9 +5,3 @@ A custom implementation of a N-link robotic arm that learns to reach a target us
 Still Under Development.
 ## Core Logic
 * **Algorithm:** DQN (Deep Q-Network) using a Target Network for stability and a Replay Buffer to store and reuse experiences.*
-
-דדד
-
-* דדג
-
-דדד
