@@ -58,7 +58,8 @@ public class Arm {
     public boolean calculateForwardKinematics(double[] angles){//returns is legal and updates currentState
         double currentX = getBasePointX();
         double currentY = getBasePointY();
-        //for more than 2 DOF
+
+        //adding vectors to get current hand position
         for(int i =0; i < getNumOfLinks(); i++){
             currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(angles[i]));
             currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(angles[i]));
