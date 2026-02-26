@@ -49,7 +49,7 @@ public class Trainer {
             int countSteps = 0;
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
-                int actionIndex = environment.getAgent().makeAction();
+                int actionIndex = environment.getAgent().makeAction(false);
                 System.out.println("joint: " + (1 + (actionIndex / 2)) +  " action index:" + actionIndex % 2);
                 double reward = environment.step(actionIndex);
                 System.out.println("reward: " + reward);

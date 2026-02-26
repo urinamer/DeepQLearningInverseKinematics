@@ -32,16 +32,22 @@ public class Agent {
     }
 
 
+    //for testing
+    public int makeAction(boolean useEpsilon){//returns QvalueIndexPair of chosen action
+        return chooseBestAction(useEpsilon);
+    }
 
-    public int makeAction(){//returns QvalueIndexPair of chosen action
-        return chooseBestAction();
+    public int makeAction(){
+        return chooseBestAction(true);
     }
 
 
-    private int chooseBestAction(){
+
+
+    private int chooseBestAction(boolean useEpsilon){
         double[] inputs = convertFromStateToInputs(agent.currentState);
         double[] outputQValues =  mainNetwork.forwardPass(inputs);
-        return chooseExploreExploit(outputQValues);
+        return chooseExploreExploit(outputQValues,useEpsilon);
     }
 
     //converts state to a double array with normalized inputs
@@ -69,10 +75,10 @@ public class Agent {
 
 
 
-    private int chooseExploreExploit(double[] actionQValues){
+    private int chooseExploreExploit(double[] actionQValues,boolean useEpsilon){
         double num = random.nextDouble();
         int index;
-        if(num >= epsilon){
+        if(num >= epsilon || !useEpsilon){
             index = findIndexOfMax(actionQValues);
         }
         else{

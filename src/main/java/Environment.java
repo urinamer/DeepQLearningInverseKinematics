@@ -47,7 +47,6 @@ public class Environment {
             reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state and
         }
 
-//        System.out.println("angles " + getAgent().getCurrentState().getAngles()[0] + " , " + getAgent().getCurrentState().getAngles()[1]);
         return reward;
 
     }
@@ -72,6 +71,7 @@ public class Environment {
             System.out.print(" Angle " + (i+1) + ": " + agent.getArm().getArmAngles()[i]);
         }
         System.out.println();
+        System.out.println("TargetX: " + agent.getCurrentState().getTargetX() + " targetY: " + agent.getCurrentState().getTargetY());
         System.out.println("X: " + agent.getArm().getHandPointX() + " Y: " + agent.getArm().getHandPointY());
     }
 
