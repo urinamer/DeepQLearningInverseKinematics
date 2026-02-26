@@ -24,6 +24,7 @@ public class Environment {
         }
     }
 
+
     public double step(int actionIndex){//returns reward
 
         int jointIndex = actionIndex / 2;// index calculation,each pair of indexes are two actions on the same angle
@@ -46,7 +47,7 @@ public class Environment {
             reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state and
         }
 
-        System.out.println("angles " + getAgent().getCurrentState().getAngles()[0] + " , " + getAgent().getCurrentState().getAngles()[1]);
+//        System.out.println("angles " + getAgent().getCurrentState().getAngles()[0] + " , " + getAgent().getCurrentState().getAngles()[1]);
         return reward;
 
     }

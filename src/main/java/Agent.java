@@ -44,13 +44,30 @@ public class Agent {
         return chooseExploreExploit(outputQValues);
     }
 
+    //converts state to a double array with normalized inputs
     private double[] convertFromStateToInputs(State state){
         double[] inputs = new double[state.getAngles().length+2];
-        System.arraycopy(currentState.getAngles(), 0, inputs, 0, inputs.length-2);//more efficient copying
-        inputs[inputs.length-2] = currentState.getTargetX();
-        inputs[inputs.length-2] = currentState.getTargetY();
+        for(int i = 0; i < currentState.getAngles().length; i++){
+            inputs[i] = normalizeAngle(currentState.getAngles()[i]);
+        }
+        inputs[inputs.length-2] = normalizeX(currentState.getTargetX());
+        inputs[inputs.length-1] = normalizeY(currentState.getTargetY());
         return inputs;
     }
+    // normalize angle to 0-1. Should generalize.
+    private double normalizeAngle(double angle){
+            return (angle-Constants.MIN_ANGLE)/(Constants.MAX_ANGLE - Constants.MIN_ANGLE);
+    }
+
+    private double normalizeX(double x){
+        return (x-Constants.MIN_ENVIRONMENT_X)/(Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
+    }
+
+    private double normalizeY(double y){
+        return (y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
+    }
+
+
 
     private int chooseExploreExploit(double[] actionQValues){
         double num = random.nextDouble();
