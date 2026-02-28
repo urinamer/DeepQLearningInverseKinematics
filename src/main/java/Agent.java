@@ -124,8 +124,8 @@ public class Agent {
         targetNetwork.copyNetwork(mainNetwork);
     }
 
-    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState,boolean isDone){
-        replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState,isDone);
+    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState,boolean isDone,boolean doneIllegalMove){
+        replayBuffer.addToReplayBuffer(currentState,actionIndex,reward,nextState,isDone,doneIllegalMove);
     }
 
     public int getReplayBufferSize(){
@@ -147,7 +147,7 @@ public class Agent {
 
             //Bellman equation. Only add maxArg when not in the terminal state
             double targetQValue = bufferTransition.getReward() +
-                    (bufferTransition.isDone() ? 0 :
+                    (bufferTransition.isDone() || bufferTransition.doIllegalMove() ? 0 :
                             Constants.DISCOUNT_FACTOR * findMax(targetNetwork.forwardPass(targetInputs)));
 
 

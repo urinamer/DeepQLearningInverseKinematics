@@ -3,14 +3,16 @@ public class BufferTransition {
     private int actionIndex;
     private double reward;
     private boolean isDone;// don't forget about that
+    private boolean didIllegalMove;
     private State nextState;
 
-    public BufferTransition(State currentState, int actionIndex, double reward, State nextState,boolean isDone) {
+    public BufferTransition(State currentState, int actionIndex, double reward, State nextState,boolean isDone,boolean didIllegalMove) {
         this.currentState = currentState;
         this.actionIndex = actionIndex;
         this.reward = reward;
         this.nextState = nextState;
         this.isDone = isDone;
+        this.didIllegalMove = didIllegalMove;
     }
 
     public State getCurrentState() {
@@ -47,6 +49,10 @@ public class BufferTransition {
 
     public boolean isDone() {
         return isDone;
+    }
+
+    public boolean doIllegalMove(){
+        return didIllegalMove;
     }
 
     public void setDone(boolean done) {

@@ -27,7 +27,7 @@ public class Environment {
     }
 
 
-    public double step(int actionIndex){//returns reward
+    public double[] step(int actionIndex){//returns reward
 
         int jointIndex = actionIndex / 2;// index calculation,each pair of indexes are two actions on the same angle
         double angleStep = (actionIndex % 2 == 0) ? Constants.ANGLE_CHANGE_STEP : Constants.ANGLE_CHANGE_STEP*-1;//first action in pair is UP, second one is DOWN
@@ -40,31 +40,44 @@ public class Environment {
         double oldX = agent.getArm().getHandPointX();
         double oldY = agent.getArm().getHandPointY();
         double reward;
+        int done;
+        double[] rewardDoneIllegalArr = new double[3];
 
         // need to check collisions between links with forward kinematics.
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            reward = computeReward(oldX,oldY);
+            double[] computedReward = computeReward(oldX,oldY);
+            reward = computedReward[0];
+            if(computedReward[1] == 1)
+                done = 1;
+            else
+                done = 0;
+
+            rewardDoneIllegalArr[2] = 0;
         }
         else{
-            reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state and
+            reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state.
+            rewardDoneIllegalArr[2] = 1;
+            done = 0;
         }
+        rewardDoneIllegalArr[0] = reward;
+        rewardDoneIllegalArr[1] = done;
 
-        return reward;
+        return rewardDoneIllegalArr;
 
     }
 
 
-    private double computeReward(double oldX, double oldY){
+    private double[] computeReward(double oldX, double oldY){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
 
         if(newDistance <= Constants.DISTANCE_MIN_MARGIN)
-            return Constants.REACHED_POINT_REWARD;
+            return new double[]{Constants.REACHED_POINT_REWARD,1};
         if(currDistance  > newDistance)
-            return Constants.REWARD;
+            return new double[]{Constants.REWARD,0};
 
-        return Constants.PUNISHMENT;
+        return new double[]{Constants.PUNISHMENT,0};
 
     }
 

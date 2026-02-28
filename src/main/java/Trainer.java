@@ -18,13 +18,14 @@ public class Trainer {
             int countSteps = 0;
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
-                int actionIndex = environment.getAgent().makeAction();
+                int actionIndex = environment.getAgent().makeAction();//action index in the output arr
                 State currentState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
-                double reward = environment.step(actionIndex);
+                double[] rewardArr = environment.step(actionIndex);//updates current state inside it
+                double reward = rewardArr[0];
                 State nextState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
-                done = reward == Constants.REACHED_POINT_REWARD;
-
-                environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done);
+                done = rewardArr[1] == 1;// is episode done,reached point and finished?
+                boolean doneIllegalMove = rewardArr[2] == 1;
+                environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done,doneIllegalMove);
 
                 if(environment.getAgent().getReplayBufferSize() > Constants.MIN_NUM_OF_TRANSITIONS){//wait for replay buffer to fill up
                     environment.getAgent().learn();//use the transitions to update the weights abd biases
@@ -51,9 +52,9 @@ public class Trainer {
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
                 int actionIndex = environment.getAgent().makeAction(false);
                 System.out.println("joint: " + (1 + (actionIndex / 2)) +  " action index:" + actionIndex % 2);
-                double reward = environment.step(actionIndex);
-                System.out.println("reward: " + reward);
-                done = reward == Constants.REACHED_POINT_REWARD;
+                double[] rewardArr = environment.step(actionIndex);
+                System.out.println("reward: " + rewardArr[0]);
+                done = rewardArr[1] == 1;
 
                 environment.printAnglesAndPositions();
 

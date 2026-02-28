@@ -29,19 +29,19 @@ public class Constants {
 
 //    public static final double STEP_SIZE = 1; not used yet
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final double LEARNING_RATE = 0.001;
+    public static final double LEARNING_RATE = 0.0001;
 
     public static final double DISTANCE_MIN_MARGIN = 1;
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double PUNISHMENT = -0.01;
-    public static final double HITTING_WALLS_PENALTY = -1;
+    public static final double HITTING_WALLS_PENALTY = -5;
 
 
 
     public static final double BIAS_STARTER_VALUE = 0.01;
 
-    public static final float EPSILON_DECAY = 0.999f;
+    public static final float EPSILON_DECAY = 0.999f;//always change when changing numOfEpisodes
 
     public static final int NUM_OF_LAYERS = 3;
     public static final int NUM_OF_NEURONS_IN_LAYER = 32;

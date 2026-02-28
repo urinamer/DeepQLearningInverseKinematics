@@ -4,7 +4,7 @@ public class Main {
         Arm arm = new Arm();
         Trainer trainer = new Trainer(arm);
 //        trainer.loadModel();
-//        trainer.trainModel(5000);
+//        trainer.trainModel(5000);//always change epsilon decay before changing
 
         trainer.loadModel();
         double avg_steps = trainer.testModel(100);
