@@ -110,6 +110,16 @@ public class Agent {
         return maxIndex;
     }
 
+
+    private static double findMax(double[] numbers){
+        double max = numbers[0];
+        for (int i = 1; i <numbers.length ; i++) {
+            if (numbers[i] > max)
+                max = numbers[i];
+        }
+        return max;
+    }
+
     public void updateTargetNetwork(){
         targetNetwork.copyNetwork(mainNetwork);
     }
@@ -135,12 +145,10 @@ public class Agent {
             countQValue++;
             double avgQValue = sumQValue/countQValue;
 
-            int indexOfTargetMax = findIndexOfMax(targetInputs);
             //Bellman equation. Only add maxArg when not in the terminal state
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() ? 0 :
-                            Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[indexOfTargetMax]);
-
+                            Constants.DISCOUNT_FACTOR * findMax(targetNetwork.forwardPass(targetInputs)));
 
 
 
