@@ -52,6 +52,7 @@ public class Arm {
 
     public void resetArm(){
         Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        calculateForwardKinematics(armAngles);
     }
 
 

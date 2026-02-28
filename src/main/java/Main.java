@@ -6,6 +6,8 @@ public class Main {
 //        trainer.loadModel();
 //        trainer.trainModel(5000);//always change epsilon decay before changing
 
+
+
         trainer.loadModel();
         double avg_steps = trainer.testModel(100);
         System.out.println("avg_steps: " + avg_steps);

@@ -11,6 +11,9 @@ public class Agent {
     private ReplayBuffer replayBuffer;
 
 
+    private double bestDistanceInEp;
+
+
     //global variables save or not create over and over
     private float epsilon = 1;
     private Random random = new Random();
@@ -188,6 +191,15 @@ public class Agent {
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
+    }
+
+
+    public double getBestDistance(){
+        return bestDistanceInEp;
+    }
+
+    public void setBestDistance(double bestDistance){
+        bestDistanceInEp = bestDistance;
     }
 
 

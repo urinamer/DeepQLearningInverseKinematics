@@ -15,6 +15,7 @@ public class Environment {
 //        double targetY = 5;
         agent.getArm().resetArm();
 
+
         // need to check collisions between links with forward kinematics.
         if(agent.getCurrentState() == null){
             agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles()));
@@ -24,6 +25,10 @@ public class Environment {
             agent.getCurrentState().setTargetY(targetY);
             agent.getCurrentState().setAngles(agent.getArm().getArmAngles());
         }
+        //reset best distance
+        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
+        agent.setBestDistance(distance);
+
     }
 
 
@@ -69,13 +74,15 @@ public class Environment {
 
     private double[] computeReward(double oldX, double oldY){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
-        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
+//        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
 
         if(newDistance <= Constants.DISTANCE_MIN_MARGIN)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
-        if(currDistance  > newDistance)
-            return new double[]{Constants.REWARD,0};
+        if(newDistance < agent.getBestDistance()) {
+            agent.setBestDistance(newDistance);//updating bestDistance
+            return new double[]{Constants.REWARD, 0};
+        }
 
         return new double[]{Constants.PUNISHMENT,0};
 
