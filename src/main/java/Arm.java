@@ -84,24 +84,12 @@ public class Arm {
         return basePointX;
     }
 
-    public void setBasePointX(double basePointX) {
-        this.basePointX = basePointX;
-    }
-
     public double getBasePointY() {
         return basePointY;
     }
 
-    public void setBasePointY(double basePointY) {
-        this.basePointY = basePointY;
-    }
-
     public int getNumOfLinks() {
         return numOfLinks;
-    }
-
-    public void setNumOfLinks(int numOfLinks) {
-        this.numOfLinks = numOfLinks;
     }
 
     public double[] getLinkLengths() {
@@ -117,15 +105,8 @@ public class Arm {
         return handPointY;
     }
 
-    public void setHandPointY(double handPointY) {
-        this.handPointY = handPointY;
-    }
-
     public double getHandPointX() {
         return handPointX;
     }
 
-    public void setHandPointX(double handPointX) {
-        this.handPointX = handPointX;
-    }
 }

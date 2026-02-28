@@ -23,7 +23,7 @@ public class Constants {
     public static final int MAX_STEPS_PER_EPISODE = 500;
     public static final int BATCH_SIZE = 32;
     public static final int MIN_NUM_OF_TRANSITIONS = 100;
-    public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 250;
+    public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 1000;
     public static final int REPLAY_BUFFER_MAX_SIZE = 10000;
 
 
@@ -41,9 +41,9 @@ public class Constants {
 
     public static final double BIAS_STARTER_VALUE = 0.01;
 
-    public static final float EPSILON_DECAY = 0.995f;
+    public static final float EPSILON_DECAY = 0.999f;
 
     public static final int NUM_OF_LAYERS = 3;
-    public static final int NUM_OF_NEURONS_IN_LAYER = 5;
+    public static final int NUM_OF_NEURONS_IN_LAYER = 32;
 
 }

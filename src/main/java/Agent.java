@@ -19,7 +19,7 @@ public class Agent {
     //Logger stuff
     Logger logger = LogManager.getLogger(Agent.class);
     double sumQValue = 0;
-    int countQValue = 0;
+    double sumLoss = 0;
     int learnCounter = 0;
 
     private Agent(Arm arm){
@@ -142,8 +142,8 @@ public class Agent {
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             sumQValue += preQValue;
-            countQValue++;
-            double avgQValue = sumQValue/countQValue;
+            learnCounter++;
+            double avgQValue = sumQValue/learnCounter;
 
             //Bellman equation. Only add maxArg when not in the terminal state
             double targetQValue = bufferTransition.getReward() +
@@ -151,14 +151,14 @@ public class Agent {
                             Constants.DISCOUNT_FACTOR * findMax(targetNetwork.forwardPass(targetInputs)));
 
 
-
+            double loss = Math.pow(preQValue-targetQValue,2);
+            sumLoss += loss;
+            double avgLoss = sumLoss/learnCounter;
             if(learnCounter % 500 == 0) {
                 logger.info("avg Q Value updated: " + avgQValue);
-                double loss = Math.pow(preQValue-targetQValue,2);
-                logger.info("loss function: " + loss);
+                logger.info("avg loss: " + avgLoss);
             }
 
-            learnCounter++;
 
             double outputLayerDelta = 2*(preQValue-targetQValue);
             mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
