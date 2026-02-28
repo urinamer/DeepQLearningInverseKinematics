@@ -1,4 +1,5 @@
 import java.util.Random;
+import org.apache.logging.log4j.*;
 
 public class Agent {
     private static Agent agent;
@@ -13,6 +14,13 @@ public class Agent {
     //global variables save or not create over and over
     private float epsilon = 1;
     private Random random = new Random();
+
+
+    //Logger stuff
+    Logger logger = LogManager.getLogger(Agent.class);
+    double sumQValue = 0;
+    int countQValue = 0;
+    int learnCounter = 0;
 
     private Agent(Arm arm){
         currentState = null;
@@ -123,11 +131,26 @@ public class Agent {
             double[] targetInputs = convertFromStateToInputs(bufferTransition.getNextState());
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
+            sumQValue += preQValue;
+            countQValue++;
+            double avgQValue = sumQValue/countQValue;
+
             int indexOfTargetMax = findIndexOfMax(targetInputs);
             //Bellman equation. Only add maxArg when not in the terminal state
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() ? 0 :
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[indexOfTargetMax]);
+
+
+
+
+            if(learnCounter % 500 == 0) {
+                logger.info("avg Q Value updated: " + avgQValue);
+                double loss = Math.pow(preQValue-targetQValue,2);
+                logger.info("loss function: " + loss);
+            }
+
+            learnCounter++;
 
             double outputLayerDelta = 2*(preQValue-targetQValue);
             mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients

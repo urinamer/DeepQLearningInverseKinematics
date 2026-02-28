@@ -44,6 +44,6 @@ public class Constants {
     public static final float EPSILON_DECAY = 0.995f;
 
     public static final int NUM_OF_LAYERS = 3;
-    public static final int NUM_OF_NEURONS_IN_LAYER = 64;
+    public static final int NUM_OF_NEURONS_IN_LAYER = 5;
 
 }

@@ -11,6 +11,8 @@ public class Environment {
     public void initNewEpisode(){
         double targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
         double targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
+//        double targetX = 5;
+//        double targetY = 5;
         agent.getArm().resetArm();
 
         // need to check collisions between links with forward kinematics.
@@ -32,7 +34,7 @@ public class Environment {
         double[] anglesCopy = new double[agent.getCurrentState().getAngles().length];
         System.arraycopy(agent.getCurrentState().getAngles(), 0, anglesCopy, 0, anglesCopy.length);//more efficient copying
         anglesCopy[jointIndex] += angleStep; //add angleStep based on the action chosen
-        anglesCopy[jointIndex] = (anglesCopy[jointIndex]%360 +360) %360;
+        anglesCopy[jointIndex] = (anglesCopy[jointIndex]%360 +360) %360;//normalizing angles to 0 - 360 degrees
 
 
         double oldX = agent.getArm().getHandPointX();
