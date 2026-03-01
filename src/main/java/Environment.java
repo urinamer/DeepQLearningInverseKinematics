@@ -42,15 +42,15 @@ public class Environment {
         anglesCopy[jointIndex] = (anglesCopy[jointIndex]%360 +360) %360;//normalizing angles to 0 - 360 degrees
 
 
-        double oldX = agent.getArm().getHandPointX();
-        double oldY = agent.getArm().getHandPointY();
+       /* double oldX = agent.getArm().getHandPointX();
+        double oldY = agent.getArm().getHandPointY();*/
         double reward;
         int done;
         double[] rewardDoneIllegalArr = new double[3];
 
         // need to check collisions between links with forward kinematics.
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            double[] computedReward = computeReward(oldX,oldY);
+            double[] computedReward = computeReward();
             reward = computedReward[0];
             if(computedReward[1] == 1)
                 done = 1;
@@ -72,7 +72,7 @@ public class Environment {
     }
 
 
-    private double[] computeReward(double oldX, double oldY){// returns double array where [0] is reward and [1] is if it reached the target
+    private double[] computeReward(){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
 //        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward

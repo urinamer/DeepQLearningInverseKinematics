@@ -9,7 +9,7 @@ public class Constants {
     public static final double MIN_ENVIRONMENT_Y = 0;
     public static final int MAX_ANGLE = 360;
     public static final int MIN_ANGLE = 0;
-    public static final double ANGLE_CHANGE_STEP = 10;
+    public static final double ANGLE_CHANGE_STEP = 5;
 
     public static final double DEFAULT_X_BASE = 5;
     public static final double DEFAULT_Y_BASE = 0;
@@ -35,7 +35,7 @@ public class Constants {
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double PUNISHMENT = -0.01;
-    public static final double HITTING_WALLS_PENALTY = -5;
+    public static final double HITTING_WALLS_PENALTY = -1;
 
 
 
