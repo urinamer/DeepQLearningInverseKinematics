@@ -12,7 +12,7 @@ public class ReplayBuffer {
     private final BufferTransition[] replayBuffer;
 
 
-    private Random random = new Random(NetworkConstants.RANDOM_SEED);//Should seed
+    private Random random = new Random();//Should seed
     //Maybe should be singleton
 
     public ReplayBuffer() {

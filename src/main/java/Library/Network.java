@@ -13,9 +13,9 @@ public class Network {
     private double[][] layerOutputs;
 
 
-    double[][] deltas;
-    double[][][] sumWeightsGradients;
-    double[][] sumBiasGradients;
+    double[][] deltas;// The errors used to pull back from previous layers
+    double[][][] sumWeightsGradients;//The sum of all weights gradients for each neuron in each layer
+    double[][] sumBiasGradients;//The sum of all bias gradients for each neuron in each layer
 
 
 
@@ -50,7 +50,7 @@ public class Network {
 
         //this sucks, you can do better. make it more generic and less monkey brain
         layers[numOfLayers-1] =  new Neuron[numOfOutputs];
-        layerOutputs[numOfLayers-1] = new double[numOfNeuronsInLayer];
+        layerOutputs[numOfLayers-1] = new double[numOfOutputs];
         deltas[numOfLayers-1] = new double[layers[numOfLayers-1].length];
 
         int numInputs = layers[numOfLayers-2].length;
@@ -107,7 +107,8 @@ public class Network {
                     //pull error from layer ahead
                     error = calculateSumErrors(i,j);
                 }
-                deltas[i][j] = error * Neuron.activationFunctionDer(layerOutputs[i][j]);// get delta for current neuron,store it to pull in the next layer
+                double ActivationDerivative = (i == layers.length-1) ? 1.0 : Neuron.activationFunctionDer(layerOutputs[i][j]);
+                deltas[i][j] = error * ActivationDerivative;// get delta for current neuron,store it to pull in the next layer
                 sumBiasGradients[i][j] += deltas[i][j];//added value to sum
 
                 for (int k = 0; k < sumWeightsGradients[i][j].length; k++) {

@@ -84,7 +84,7 @@ public class Environment {
 //        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
 
-        if(newDistance <= Constants.DISTANCE_MIN_MARGIN)
+        if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
         if(newDistance < agent.getBestDistance()) {
             agent.setBestDistance(newDistance);//updating bestDistance

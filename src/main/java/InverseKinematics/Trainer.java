@@ -34,9 +34,9 @@ public class Trainer {
                     environment.getAgent().learn();//use the transitions to update the weights abd biases
                 }
 
-                if(countSteps % Constants.STEPS_TO_UPDATE_TARGET_NETWORK == 0)
-                    environment.getAgent().updateTargetNetwork();
 
+                if(countSteps > 0 && countSteps % Constants.STEPS_TO_UPDATE_TARGET_NETWORK == 0)
+                    environment.getAgent().updateTargetNetwork();
 
                 countSteps++;
             }

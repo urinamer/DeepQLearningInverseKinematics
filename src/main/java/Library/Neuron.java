@@ -8,7 +8,7 @@ public class Neuron {
     private double[] weights;
     private final int numOfWeights;
     private double bias;//Maybe should be float
-    Random random = new Random(NetworkConstants.RANDOM_SEED);
+    Random random = new Random();
 
     public Neuron(int numOfWeights) {
 

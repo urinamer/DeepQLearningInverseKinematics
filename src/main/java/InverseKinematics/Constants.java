@@ -31,9 +31,9 @@ public class Constants {
 
 //    public static final double STEP_SIZE = 1; not used yet
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final float EPSILON_DECAY = 0.995f;//always change when changing numOfEpisodes
+    public static final float EPSILON_DECAY = 0.9995f;//always change when changing numOfEpisodes
 
-    public static final double DISTANCE_MIN_MARGIN = 0.2;
+    public static final double MIN_DISTANCE = 0.2;
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double PUNISHMENT = -0.01;

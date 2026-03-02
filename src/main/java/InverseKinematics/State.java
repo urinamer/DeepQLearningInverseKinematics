@@ -15,7 +15,7 @@ public class State {
 
 
     public State copy(){
-        return new State(targetX,targetY,angles);
+        return new State(targetX,targetY,angles.clone());
     }
 
     //bad practice
