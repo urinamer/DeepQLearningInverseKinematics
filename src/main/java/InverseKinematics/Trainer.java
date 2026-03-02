@@ -40,6 +40,8 @@ public class Trainer {
 
                 countSteps++;
             }
+
+            environment.getAgent().decreaseEpsilon();//decay epsilon every episode
         }
         environment.getAgent().saveNetworkToFile(Constants.NETWORK_FILE);
     }

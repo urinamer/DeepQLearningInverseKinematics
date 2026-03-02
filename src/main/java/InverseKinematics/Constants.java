@@ -3,7 +3,7 @@ package InverseKinematics;
 public class Constants {
 
 
-    public static final String NETWORK_FILE = "Models/Library.Network.csv";
+    public static final String NETWORK_FILE = "Models/Network.csv";
 
 
     public static final double MAX_ENVIRONMENT_X = 10.5;
@@ -33,7 +33,7 @@ public class Constants {
     public static final double DISCOUNT_FACTOR = 0.9;
     public static final float EPSILON_DECAY = 0.995f;//always change when changing numOfEpisodes
 
-    public static final double DISTANCE_MIN_MARGIN = 1;
+    public static final double DISTANCE_MIN_MARGIN = 0.2;
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double PUNISHMENT = -0.01;
@@ -42,6 +42,6 @@ public class Constants {
 
 
     public static final int NUM_OF_LAYERS = 3;
-    public static final int NUM_OF_NEURONS_IN_LAYER = 32;
+    public static final int NUM_OF_NEURONS_IN_LAYER = 64;
 
 }

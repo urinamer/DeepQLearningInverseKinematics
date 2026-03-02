@@ -104,9 +104,13 @@ public class Agent {
         else{
             index = random.nextInt(arm.getArmAngles().length*2);
         }
+        return index;
+    }
+
+
+    public void decreaseEpsilon(){
         if(epsilon > 0.01f)
             epsilon *= Constants.EPSILON_DECAY;
-        return index;
     }
 
     private static int findIndexOfMax(double[] numbers) {
