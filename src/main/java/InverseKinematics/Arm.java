@@ -91,7 +91,7 @@ public class Arm {
                 .MIN_ENVIRONMENT_Y))
             return false;
 
-        double distance = Math.sqrt(Math.pow(handPointX-x,2)+Math.pow(handPointY-y,2));
+        double distance = Math.sqrt(Math.pow(basePointX-x,2)+Math.pow(basePointY-y,2));
         if(distance > this.radius)
             return false;
 

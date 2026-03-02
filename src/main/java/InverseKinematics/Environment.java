@@ -14,8 +14,8 @@ public class Environment {
         double targetX;
         double targetY;
         do {
-            targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
-            targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
+            targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
+            targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
         }while (!agent.getArm().isPointReachable(targetX,targetY));
 
 //        double targetX = 5;

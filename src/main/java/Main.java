@@ -5,13 +5,13 @@ public class Main {
     public static void main(String[] args) {
         Arm arm = new Arm();
         Trainer trainer = new Trainer(arm);
-        trainer.loadModel();
-        trainer.trainModel(1);//always change epsilon decay before changing
+//        trainer.loadModel();
+        trainer.trainModel(1000);//always change epsilon decay before changing
 
 
 //
-        trainer.loadModel();
-        double avg_steps = trainer.testModel(100);
-        System.out.println("avg_steps: " + avg_steps);
+//        trainer.loadModel();
+//        double avg_steps = trainer.testModel(1);
+//        System.out.println("avg_steps: " + avg_steps);
     }
 }

@@ -10,8 +10,7 @@ public class Constants {
     public static final double MAX_ENVIRONMENT_Y = 10.5;
     public static final double MIN_ENVIRONMENT_X = -10.5;
     public static final double MIN_ENVIRONMENT_Y = -10.5;
-    public static final int MAX_ANGLE = 360;
-    public static final int MIN_ANGLE = 0;
+
     public static final double ANGLE_CHANGE_STEP = 5;
 
     public static final double DEFAULT_X_BASE = 0;

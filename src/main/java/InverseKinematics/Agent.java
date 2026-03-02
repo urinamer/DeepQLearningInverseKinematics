@@ -67,27 +67,30 @@ public class Agent {
         return chooseExploreExploit(outputQValues,useEpsilon);
     }
 
-    //converts state to a double array with normalized inputs
+    //converts state to a double array. Changes angles to sin and cos to help the agent
+    // understand that 360 degrees and 1 degree are very close and not very far.
+    // normalized inputs to 0-1,because neural networks hate big numbers that cause gradient explosion.
     private double[] convertFromStateToInputs(State state){
-        double[] inputs = new double[state.getAngles().length+2];
-        for(int i = 0; i < currentState.getAngles().length; i++){
-            inputs[i] = normalizeAngle(currentState.getAngles()[i]);
+        double[] inputs = new double[state.getAngles().length*2 + 2];
+        for(int i = 0; i < state.getAngles().length ; i++){
+            //converting angles to sin and cos
+            double radianAngle = Math.toRadians(state.getAngles()[i]);
+            inputs[i*2] = Math.cos(radianAngle);
+            inputs[i*2 + 1] = Math.sin(radianAngle);
         }
-        inputs[inputs.length-2] = normalizeX(currentState.getTargetX());
-        inputs[inputs.length-1] = normalizeY(currentState.getTargetY());
+
+
+        inputs[inputs.length-2] = normalizeX(state.getTargetX());
+        inputs[inputs.length-1] = normalizeY(state.getTargetY());
         return inputs;
-    }
-    // normalize angle to 0-1. Should generalize.
-    private double normalizeAngle(double angle){
-            return (angle-Constants.MIN_ANGLE)/(Constants.MAX_ANGLE - Constants.MIN_ANGLE);
     }
 
     private double normalizeX(double x){
-        return (x-Constants.MIN_ENVIRONMENT_X)/(Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
+        return 2 * ((x-Constants.MIN_ENVIRONMENT_X)/(Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X)) -1;
     }
 
     private double normalizeY(double y){
-        return (y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
+        return 2 * ((y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y)) -1;
     }
 
 
