@@ -5,12 +5,17 @@ public class Environment {
 
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
-        random = new Random(Constants.RANDOM_SEED);
+        random = new Random();
     }
 
     public void initNewEpisode(){
-        double targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
-        double targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
+        double targetX;
+        double targetY;
+        do {
+            targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
+            targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
+        }while (!agent.getArm().isPointReachable(targetX,targetY));
+
 //        double targetX = 5;
 //        double targetY = 4;
         agent.getArm().resetArm();

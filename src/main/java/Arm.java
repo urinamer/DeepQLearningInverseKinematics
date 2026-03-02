@@ -9,6 +9,8 @@ public class Arm {
     private double[] linkLengths;
     private double[] armAngles;
 
+    private double radius;
+
     public Arm(double basePointX, double basePointY, int numOfLinks,double[] linkLengths, double[] armAngles) {
         this.basePointX = basePointX;
         this.basePointY = basePointY;
@@ -16,6 +18,7 @@ public class Arm {
         this.linkLengths = linkLengths;
         this.armAngles = armAngles;
         calculateForwardKinematics(armAngles);
+        calculateRadius();
     }
 
     public Arm(double basePointX, double basePointY,int numOfLinks, double[] linkLengths) {
@@ -24,6 +27,7 @@ public class Arm {
         this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
         calculateForwardKinematics(armAngles);
+        calculateRadius();
     }
 
     public Arm(double basePointX, double basePointY) {
@@ -35,6 +39,7 @@ public class Arm {
         armAngles = new double[numOfLinks];
         Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
         calculateForwardKinematics(armAngles);
+        calculateRadius();
 
     }
 
@@ -47,7 +52,7 @@ public class Arm {
         armAngles = new double[numOfLinks];
         Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
         calculateForwardKinematics(armAngles);
-
+        calculateRadius();
     }
 
     public void resetArm(){
@@ -79,8 +84,26 @@ public class Arm {
 
     }
 
+    public boolean isPointReachable(double x, double y){
+        if(!(x < Constants.MAX_ENVIRONMENT_X && x > Constants.MIN_ENVIRONMENT_X && y < Constants.MAX_ENVIRONMENT_Y && y > Constants
+                .MIN_ENVIRONMENT_Y))
+            return false;
+
+        double distance = Math.sqrt(Math.pow(handPointX-x,2)+Math.pow(handPointY-y,2));
+        if(distance > this.radius)
+            return false;
+
+        return true;
+    }
 
 
+    private void calculateRadius(){
+        double sum = 0;
+        for(double linkLength : linkLengths){
+            sum += linkLength;
+        }
+        this.radius = sum;
+    }
 
     public double getBasePointX() {
         return basePointX;
