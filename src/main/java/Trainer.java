@@ -17,14 +17,15 @@ public class Trainer {
             environment.initNewEpisode();
             int countSteps = 0;
             boolean done = false;
-            while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
+            boolean doneIllegalMove = false;
+            while (!done && !doneIllegalMove && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
                 int actionIndex = environment.getAgent().makeAction();//action index in the output arr
                 State currentState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
                 double[] rewardArr = environment.step(actionIndex);//updates current state inside it
                 double reward = rewardArr[0];
                 State nextState = environment.getAgent().getCurrentState().copy();//copy state so it won't point to the same address
                 done = rewardArr[1] == 1;// is episode done,reached point and finished?
-                boolean doneIllegalMove = rewardArr[2] == 1;
+                doneIllegalMove = rewardArr[2] == 1;
                 environment.getAgent().addToReplayBuffer(currentState, actionIndex, reward, nextState,done,doneIllegalMove);
 
                 if(environment.getAgent().getReplayBufferSize() > Constants.MIN_NUM_OF_TRANSITIONS){//wait for replay buffer to fill up

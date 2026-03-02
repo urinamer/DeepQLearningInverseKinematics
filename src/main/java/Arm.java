@@ -66,7 +66,8 @@ public class Arm {
             currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(angles[i]));
         }
 
-        if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > 0 && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > 0){
+        if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > Constants.MIN_ENVIRONMENT_X && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > Constants
+                .MIN_ENVIRONMENT_Y){
             //update arm angles,because states angles pointer is pointing to the arm angles, the state is also updating.
             System.arraycopy(angles, 0, this.armAngles, 0, angles.length);
             this.handPointX = currentX;

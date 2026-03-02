@@ -4,12 +4,12 @@ public class Main {
         Arm arm = new Arm();
         Trainer trainer = new Trainer(arm);
 //        trainer.loadModel();
-//        trainer.trainModel(5000);//always change epsilon decay before changing
+//        trainer.trainModel(100);//always change epsilon decay before changing
 
 
-
+//
         trainer.loadModel();
-        double avg_steps = trainer.testModel(100);
+        double avg_steps = trainer.testModel(1);
         System.out.println("avg_steps: " + avg_steps);
     }
 }

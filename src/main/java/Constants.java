@@ -3,15 +3,17 @@ public class Constants {
 
     public static final String NETWORK_FILE = "Models/Network.csv";
 
-    public static final double MAX_ENVIRONMENT_X = 10;
-    public static final double MAX_ENVIRONMENT_Y = 11;
-    public static final double MIN_ENVIRONMENT_X = 0;
-    public static final double MIN_ENVIRONMENT_Y = 0;
+    public static final int RANDOM_SEED = 42;
+
+    public static final double MAX_ENVIRONMENT_X = 10.5;
+    public static final double MAX_ENVIRONMENT_Y = 10.5;
+    public static final double MIN_ENVIRONMENT_X = -10.5;
+    public static final double MIN_ENVIRONMENT_Y = -10.5;
     public static final int MAX_ANGLE = 360;
     public static final int MIN_ANGLE = 0;
     public static final double ANGLE_CHANGE_STEP = 5;
 
-    public static final double DEFAULT_X_BASE = 5;
+    public static final double DEFAULT_X_BASE = 0;
     public static final double DEFAULT_Y_BASE = 0;
     public static final double DEFAULT_LINK_LENGTH = 5;
     public static final double DEFAULT_ANGLE = 90;
@@ -29,19 +31,17 @@ public class Constants {
 
 //    public static final double STEP_SIZE = 1; not used yet
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final double LEARNING_RATE = 0.0001;
+    public static final double LEARNING_RATE = 0.001;
+    public static final float EPSILON_DECAY = 0.995f;//always change when changing numOfEpisodes
 
     public static final double DISTANCE_MIN_MARGIN = 1;
     public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double PUNISHMENT = -0.01;
-    public static final double HITTING_WALLS_PENALTY = -1;
-
+    public static final double HITTING_WALLS_PENALTY = -5;
 
 
     public static final double BIAS_STARTER_VALUE = 0.01;
-
-    public static final float EPSILON_DECAY = 0.999f;//always change when changing numOfEpisodes
 
     public static final int NUM_OF_LAYERS = 3;
     public static final int NUM_OF_NEURONS_IN_LAYER = 32;

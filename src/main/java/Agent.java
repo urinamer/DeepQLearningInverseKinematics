@@ -16,7 +16,7 @@ public class Agent {
 
     //global variables save or not create over and over
     private float epsilon = 1;
-    private Random random = new Random();
+    private Random random = new Random(Constants.RANDOM_SEED);
 
 
     //Logger stuff
@@ -95,7 +95,7 @@ public class Agent {
         else{
             index = random.nextInt(arm.getArmAngles().length*2);
         }
-        if(epsilon > 0.1f)
+        if(epsilon > 0.01f)
             epsilon *= Constants.EPSILON_DECAY;
         return index;
     }
@@ -157,9 +157,10 @@ public class Agent {
             double loss = Math.pow(preQValue-targetQValue,2);
             sumLoss += loss;
             double avgLoss = sumLoss/learnCounter;
-            if(learnCounter % 500 == 0) {
+            if(learnCounter % 5000 == 0) {
                 logger.info("avg Q Value updated: " + avgQValue);
                 logger.info("avg loss: " + avgLoss);
+                logger.info("epsilon: " + epsilon);
             }
 
 

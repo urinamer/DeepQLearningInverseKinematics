@@ -5,14 +5,14 @@ public class Environment {
 
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
-        random = new Random();
+        random = new Random(Constants.RANDOM_SEED);
     }
 
     public void initNewEpisode(){
         double targetX = random.nextDouble(Constants.MAX_ENVIRONMENT_X);
         double targetY = random.nextDouble(Constants.MAX_ENVIRONMENT_Y);
 //        double targetX = 5;
-//        double targetY = 5;
+//        double targetY = 4;
         agent.getArm().resetArm();
 
 

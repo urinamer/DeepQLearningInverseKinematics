@@ -6,7 +6,7 @@ public class Neuron {
     private double[] weights;
     private final int numOfWeights;
     private double bias;//Maybe should be float
-    Random random = new Random();
+    Random random = new Random(Constants.RANDOM_SEED);
 
     public Neuron(int numOfWeights) {
 
