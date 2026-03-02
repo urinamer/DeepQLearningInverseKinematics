@@ -1,3 +1,5 @@
+package InverseKinematics;
+
 import java.util.Arrays;
 
 public class Arm {

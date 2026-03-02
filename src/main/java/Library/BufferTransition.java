@@ -1,3 +1,6 @@
+package Library;
+import InverseKinematics.State;
+
 public class BufferTransition {
     private State currentState;
     private int actionIndex;
@@ -6,7 +9,7 @@ public class BufferTransition {
     private boolean didIllegalMove;
     private State nextState;
 
-    public BufferTransition(State currentState, int actionIndex, double reward, State nextState,boolean isDone,boolean didIllegalMove) {
+    public BufferTransition(State currentState, int actionIndex, double reward, State nextState, boolean isDone, boolean didIllegalMove) {
         this.currentState = currentState;
         this.actionIndex = actionIndex;
         this.reward = reward;

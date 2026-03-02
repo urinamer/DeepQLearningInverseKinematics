@@ -1,4 +1,10 @@
+package InverseKinematics;
+
 import java.util.Random;
+
+import Library.BufferTransition;
+import Library.Network;
+import Library.ReplayBuffer;
 import org.apache.logging.log4j.*;
 
 public class Agent {
@@ -16,7 +22,7 @@ public class Agent {
 
     //global variables save or not create over and over
     private float epsilon = 1;
-    private Random random = new Random(Constants.RANDOM_SEED);
+    private Random random = new Random();
 
 
     //Logger stuff
@@ -138,7 +144,7 @@ public class Agent {
     //calculates the error and updates the weights and biases
     public void learn(){
         for(int i = 0; i < Constants.BATCH_SIZE; i++){
-            //Maybe shouldn't have connection from agent to BufferTransition class.
+            //Maybe shouldn't have connection from agent to Library.BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
             double[] mainInputs = convertFromStateToInputs(bufferTransition.getCurrentState());
             double[] targetInputs = convertFromStateToInputs(bufferTransition.getNextState());
@@ -173,12 +179,12 @@ public class Agent {
     }
 
 
-    public void saveNetworkToFile(){
-        mainNetwork.save();
+    public void saveNetworkToFile(String filename){
+        mainNetwork.save(filename);
     }
 
-    public void loadNetworkFromFile(){
-        mainNetwork.load();
+    public void loadNetworkFromFile(String filename){
+        mainNetwork.load(filename);
     }
 
 

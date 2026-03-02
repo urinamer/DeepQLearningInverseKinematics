@@ -1,3 +1,5 @@
+package Library;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -129,10 +131,10 @@ public class Network {
     public void updateWeights(int numOfTransitions){
         for (int i = 0; i < layers.length; i++) {
             for (int j = 0; j < layers[i].length; j++) {
-                double newBias = layers[i][j].getBias() - Constants.LEARNING_RATE * (sumBiasGradients[i][j] / numOfTransitions);//update bias based on average der
+                double newBias = layers[i][j].getBias() - NetworkConstants.LEARNING_RATE * (sumBiasGradients[i][j] / numOfTransitions);//update bias based on average der
                 layers[i][j].setBias(newBias);
                 for(int k = 0; k < layers[i][j].getNumOfWeights(); k++){
-                    double newWeight = layers[i][j].getWeights()[k] - Constants.LEARNING_RATE * (sumWeightsGradients[i][j][k] / numOfTransitions);//update weight based on average der
+                    double newWeight = layers[i][j].getWeights()[k] - NetworkConstants.LEARNING_RATE * (sumWeightsGradients[i][j][k] / numOfTransitions);//update weight based on average der
                     layers[i][j].getWeights()[k] = newWeight;
                 }
                 Arrays.fill(sumWeightsGradients[i][j],0);
@@ -142,8 +144,8 @@ public class Network {
     }
 
 
-    public void save(){
-        try(PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.NETWORK_FILE))){
+    public void save(String fileName){
+        try(PrintWriter printWriter = new PrintWriter(new FileWriter(fileName))){
             for (Neuron[] layer : layers) {
                 printWriter.print(layer.length + ", ");
                 for (int j = 0; j < layer.length; j++) {
@@ -162,8 +164,8 @@ public class Network {
         }
     }
 
-    public void load() {
-        try (Scanner scanner = new Scanner(new File(Constants.NETWORK_FILE))) {
+    public void load(String filename) {
+        try (Scanner scanner = new Scanner(new File(filename))) {
             for (Neuron[] layer : layers) {
                 if (!scanner.hasNextLine())
                     break;

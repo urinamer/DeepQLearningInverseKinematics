@@ -1,3 +1,5 @@
+package InverseKinematics;
+
 public class Trainer {
     Environment environment;
     Arm arm;
@@ -9,7 +11,7 @@ public class Trainer {
     }
 
     public void loadModel(){
-        environment.getAgent().loadNetworkFromFile();//load model
+        environment.getAgent().loadNetworkFromFile(Constants.NETWORK_FILE);//load model
     }
 
     public void trainModel(int numOfEpisodes){
@@ -39,7 +41,7 @@ public class Trainer {
                 countSteps++;
             }
         }
-        environment.getAgent().saveNetworkToFile();
+        environment.getAgent().saveNetworkToFile(Constants.NETWORK_FILE);
     }
 
 

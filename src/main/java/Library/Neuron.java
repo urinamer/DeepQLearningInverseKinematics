@@ -1,3 +1,5 @@
+package Library;
+
 import java.util.Random;
 
 public class Neuron {
@@ -6,7 +8,7 @@ public class Neuron {
     private double[] weights;
     private final int numOfWeights;
     private double bias;//Maybe should be float
-    Random random = new Random(Constants.RANDOM_SEED);
+    Random random = new Random(NetworkConstants.RANDOM_SEED);
 
     public Neuron(int numOfWeights) {
 
@@ -17,7 +19,7 @@ public class Neuron {
         for (int i =0; i < numOfWeights; i++){
             weights[i] = random.nextGaussian() * standardDeviation;
         }
-        bias = Constants.BIAS_STARTER_VALUE;
+        bias = NetworkConstants.BIAS_STARTER_VALUE;
     }
 
 

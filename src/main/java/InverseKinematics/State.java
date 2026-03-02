@@ -1,3 +1,5 @@
+package InverseKinematics;
+
 public class State {
 
     private double[] angles;

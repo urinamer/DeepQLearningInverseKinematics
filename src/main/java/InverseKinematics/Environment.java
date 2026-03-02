@@ -1,3 +1,5 @@
+package InverseKinematics;
+
 import java.util.Random;
 public class Environment {
     private Agent agent;
