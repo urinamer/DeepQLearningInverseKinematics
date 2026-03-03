@@ -22,19 +22,22 @@ public class Environment {
 //        double targetY = 4;
         agent.getArm().resetArm();
 
+        //reset best distance
+        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-targetX,2)+Math.pow(agent.getArm().getHandPointY()-targetY,2));
+        agent.setBestDistance(distance);
 
         // need to check collisions between links with forward kinematics.
+
+
         if(agent.getCurrentState() == null){
-            agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles()));
+            agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles(),distance));
         }
         else {
             agent.getCurrentState().setTargetX(targetX);
             agent.getCurrentState().setTargetY(targetY);
             agent.getCurrentState().setAngles(agent.getArm().getArmAngles());
+            agent.getCurrentState().setBestDistance(distance);
         }
-        //reset best distance
-        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
-        agent.setBestDistance(distance);
 
     }
 
