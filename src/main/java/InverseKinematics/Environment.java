@@ -24,10 +24,8 @@ public class Environment {
 
         //reset best distance
         double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-targetX,2)+Math.pow(agent.getArm().getHandPointY()-targetY,2));
-        agent.setBestDistance(distance);
 
         // need to check collisions between links with forward kinematics.
-
 
         if(agent.getCurrentState() == null){
             agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles(),distance));
@@ -89,8 +87,8 @@ public class Environment {
 
         if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
-        if(newDistance < agent.getBestDistance()) {
-            agent.setBestDistance(newDistance);//updating bestDistance
+        if(newDistance < agent.getCurrentState().getBestDistance()) {
+            agent.getCurrentState().setBestDistance(newDistance);//updating bestDistance
             return new double[]{Constants.REWARD, 0};
         }
 

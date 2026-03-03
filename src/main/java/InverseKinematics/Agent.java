@@ -107,7 +107,6 @@ public class Agent {
         return index;
     }
 
-
     public void decreaseEpsilon(){
         if(epsilon > 0.01f)
             epsilon *= Constants.EPSILON_DECAY;
@@ -162,9 +161,10 @@ public class Agent {
             double avgQValue = sumQValue/learnCounter;
 
             //Bellman equation. Only add maxArg when not in the terminal state
+            int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() || bufferTransition.doIllegalMove() ? 0 :
-                            Constants.DISCOUNT_FACTOR * findMax(targetNetwork.forwardPass(targetInputs)));
+                            Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[bestActionIndex]);
 
 
             double loss = Math.pow(preQValue-targetQValue,2);
@@ -208,13 +208,6 @@ public class Agent {
     }
 
 
-    public double getBestDistance(){
-        return bestDistanceInEp;
-    }
-
-    public void setBestDistance(double bestDistance){
-        bestDistanceInEp = bestDistance;
-    }
 
 
 }
