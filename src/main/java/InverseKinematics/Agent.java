@@ -153,8 +153,8 @@ public class Agent {
         for(int i = 0; i < Constants.BATCH_SIZE; i++){
             //Maybe shouldn't have connection from agent to Library.BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
-            double[] mainInputs = convertFromStateToInputs(bufferTransition.getCurrentState());
-            double[] targetInputs = convertFromStateToInputs(bufferTransition.getNextState());
+            double[] mainInputs = convertFromStateToInputs((State)bufferTransition.getCurrentState());
+            double[] targetInputs = convertFromStateToInputs((State)bufferTransition.getNextState());
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             sumQValue += preQValue;

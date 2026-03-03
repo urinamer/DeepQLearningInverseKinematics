@@ -1,7 +1,7 @@
 package Library;
 
 import java.util.Random;
-import InverseKinematics.State;
+
 
 public class ReplayBuffer {
 
@@ -22,7 +22,7 @@ public class ReplayBuffer {
         addIndex = 0;
     }
 
-    public void addToReplayBuffer(State currentState, int actionIndex, double reward, State nextState, boolean isDone, boolean doneIllegalMove){
+    public void addToReplayBuffer(NetworkState currentState, int actionIndex, double reward, NetworkState nextState, boolean isDone, boolean doneIllegalMove){
         BufferTransition newTransition = new BufferTransition(currentState,actionIndex,reward,nextState,isDone,doneIllegalMove);
         replayBuffer[addIndex] = newTransition;
         addIndex = (addIndex + 1)%maxSize;//resets addIndex to 0 if index reaches end

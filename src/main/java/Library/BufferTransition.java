@@ -1,15 +1,15 @@
 package Library;
-import InverseKinematics.State;
+
 
 public class BufferTransition {
-    private State currentState;
+    private NetworkState currentState;
     private int actionIndex;
     private double reward;
     private boolean isDone;// don't forget about that
     private boolean didIllegalMove;
-    private State nextState;
+    private NetworkState nextState;
 
-    public BufferTransition(State currentState, int actionIndex, double reward, State nextState, boolean isDone, boolean didIllegalMove) {
+    public BufferTransition(NetworkState currentState, int actionIndex, double reward, NetworkState nextState, boolean isDone, boolean didIllegalMove) {
         this.currentState = currentState;
         this.actionIndex = actionIndex;
         this.reward = reward;
@@ -18,11 +18,11 @@ public class BufferTransition {
         this.didIllegalMove = didIllegalMove;
     }
 
-    public State getCurrentState() {
+    public NetworkState getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(State currentState) {
+    public void setCurrentState(NetworkState currentState) {
         this.currentState = currentState;
     }
 
@@ -42,11 +42,11 @@ public class BufferTransition {
         this.reward = reward;
     }
 
-    public State getNextState() {
+    public NetworkState getNextState() {
         return nextState;
     }
 
-    public void setNextState(State nextState) {
+    public void setNextState(NetworkState nextState) {
         this.nextState = nextState;
     }
 

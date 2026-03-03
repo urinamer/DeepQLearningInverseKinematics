@@ -1,6 +1,8 @@
 package InverseKinematics;
 
-public class State {
+import Library.NetworkState;
+
+public class State extends NetworkState {
 
     private double[] angles;
     private double targetX;
@@ -13,7 +15,7 @@ public class State {
     }
 
 
-
+    @Override
     public State copy(){
         return new State(targetX,targetY,angles.clone());
     }
