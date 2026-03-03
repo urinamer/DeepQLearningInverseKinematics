@@ -136,4 +136,7 @@ public class Arm {
         return handPointX;
     }
 
+    public double getRadius() {
+        return radius;
+    }
 }
