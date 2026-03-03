@@ -171,7 +171,15 @@ public class Agent {
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[bestActionIndex]);
 
 
-            double loss = Math.pow(preQValue-targetQValue,2);
+            //logging data
+            double loss;
+            double meanAbsoluteError = Math.abs(preQValue-targetQValue);
+            if (meanAbsoluteError >  Constants.HUBER_LOSS_ALPHA){
+                loss = meanAbsoluteError;
+            }
+            else {
+                loss = 2 * (preQValue - targetQValue);
+            }
             sumLoss += loss;
             double avgLoss = sumLoss/learnCounter;
             if(learnCounter % 5000 == 0) {
@@ -181,12 +189,21 @@ public class Agent {
             }
 
 
-            double outputLayerDelta = 2*(preQValue-targetQValue);
+            double outputLayerDelta = huberLossDer(preQValue,targetQValue);
             mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
 
         }
 
         mainNetwork.updateWeights(Constants.BATCH_SIZE);
+    }
+
+
+    private double huberLossDer(double preQValue, double targetQValue){
+        double MeanAbsoluteError = Math.abs(preQValue-targetQValue);
+        if (MeanAbsoluteError >  Constants.HUBER_LOSS_ALPHA){
+            return (preQValue-targetQValue)/Math.abs(preQValue-targetQValue);
+        }
+        return 2*(preQValue-targetQValue);
     }
 
 

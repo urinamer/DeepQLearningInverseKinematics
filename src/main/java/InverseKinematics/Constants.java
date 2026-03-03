@@ -24,7 +24,7 @@ public class Constants {
 
     public static final int MAX_STEPS_PER_EPISODE = 500;
     public static final int BATCH_SIZE = 32;
-    public static final int MIN_NUM_OF_TRANSITIONS = 100;
+    public static final int MIN_NUM_OF_TRANSITIONS = 1000;
     public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 1000;
 
 
@@ -32,6 +32,7 @@ public class Constants {
 //    public static final double STEP_SIZE = 1; not used yet
     public static final double DISCOUNT_FACTOR = 0.9;
     public static final float EPSILON_DECAY = 0.991f;//always change when changing numOfEpisodes
+    public static final float HUBER_LOSS_ALPHA = 1.0f;
 
     public static final double MIN_DISTANCE = 0.2;
     public static final double REWARD = 1;
