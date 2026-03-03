@@ -35,13 +35,13 @@ public class Neuron {
 
     public static double calculateActivationFunction(double input){
         //Relu Activation function
-        if (input >= 0)
+        if (input > 0)
             return input;
         return 0;
     }
 
     public static double activationFunctionDer(double input){
-        if (input >= 0)
+        if (input > 0)
             return 1;
         return 0;
     }

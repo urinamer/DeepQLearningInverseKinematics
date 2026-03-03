@@ -102,7 +102,7 @@ public class Agent {
             index = findIndexOfMax(actionQValues);
         }
         else{
-            index = random.nextInt(arm.getArmAngles().length*2);
+            index = random.nextInt(actionQValues.length);
         }
         return index;
     }
