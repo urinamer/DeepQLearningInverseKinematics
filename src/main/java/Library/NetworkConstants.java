@@ -7,4 +7,6 @@ public class NetworkConstants {
     public static final double BIAS_STARTER_VALUE = 0.01;
     public static final int RANDOM_SEED = 42;
 
+    public static final double LEAKY_RELU_K = 0.01;
+
 }
