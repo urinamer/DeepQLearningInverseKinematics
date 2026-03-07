@@ -71,7 +71,7 @@ public class Agent {
     // understand that 360 degrees and 1 degree are very close and not very far.
     // normalized inputs to 0-1,because neural networks hate big numbers that cause gradient explosion.
     private double[] convertFromStateToInputs(State state){
-        double[] inputs = new double[state.getAngles().length*2 + 3];
+        double[] inputs = new double[state.getAngles().length*2 + 2];
         for(int i = 0; i < state.getAngles().length ; i++){
             //converting angles to sin and cos
             double radianAngle = Math.toRadians(state.getAngles()[i]);
@@ -79,7 +79,6 @@ public class Agent {
             inputs[i*2 + 1] = Math.sin(radianAngle);
         }
 
-        inputs[inputs.length-3] = normalizeBestDistance(state.getBestDistance());
         inputs[inputs.length-2] = normalizeX(state.getTargetX());
         inputs[inputs.length-1] = normalizeY(state.getTargetY());
         return inputs;
@@ -182,7 +181,7 @@ public class Agent {
             }
             sumLoss += loss;
             double avgLoss = sumLoss/learnCounter;
-            if(learnCounter % 5000 == 0) {
+            if(learnCounter % 30000 == 0) {
                 logger.info("avg Q Value updated: " + avgQValue);
                 logger.info("avg loss: " + avgLoss);
                 logger.info("epsilon: " + epsilon);
