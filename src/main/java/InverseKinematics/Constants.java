@@ -29,15 +29,12 @@ public class Constants {
 
 
 
-//    public static final double STEP_SIZE = 1; not used yet
     public static final double DISCOUNT_FACTOR = 0.9;
     public static final float EPSILON_DECAY = 0.9995f;//always change when changing numOfEpisodes
     public static final float HUBER_LOSS_ALPHA = 1.0f;
 
     public static final double MIN_DISTANCE = 0.5;
-    public static final double REWARD = 1;
     public static final double REACHED_POINT_REWARD = 10;
-    public static final double PUNISHMENT = -0.01;
     public static final double HITTING_WALLS_PENALTY = -5;
 
 

@@ -67,12 +67,12 @@ public class Arm {
         double currentX = getBasePointX();
         double currentY = getBasePointY();
 
-        //adding vectors to get current hand position.
+        //adding vectors to get current hand position.Using sum angles to move other joints when an earlier joint moved.
         double sumAngles = 0;
         for(int i =0; i < getNumOfLinks(); i++){
             sumAngles += angles[i];
-            currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(angles[i]));
-            currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(angles[i]));
+            currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(sumAngles));
+            currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(sumAngles));
         }
 
         if(currentX < Constants.MAX_ENVIRONMENT_X && currentX > Constants.MIN_ENVIRONMENT_X && currentY < Constants.MAX_ENVIRONMENT_Y && currentY > Constants
