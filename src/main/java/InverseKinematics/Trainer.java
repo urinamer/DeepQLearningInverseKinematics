@@ -1,13 +1,18 @@
 package InverseKinematics;
 
+import User_Interface.Controller;
+import User_Interface.UserInterface;
+
 public class Trainer {
     Environment environment;
     Arm arm;
+    Controller controller;
 
 
-    public Trainer(Arm arm) {
+    public Trainer(Arm arm, Controller controller) {
         this.environment = new Environment(arm);
         this.arm = arm;
+        this.controller = controller;
     }
 
     public void loadModel(){
@@ -56,6 +61,8 @@ public class Trainer {
         int sumSteps = 0;
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
+
+            controller.updateTarget(environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY());
             int countSteps = 0;
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
@@ -66,6 +73,8 @@ public class Trainer {
                 done = rewardArr[1] == 1;
 
                 environment.printAnglesAndPositions();
+
+                controller.updateArmState();
 
                 countSteps++;
             }

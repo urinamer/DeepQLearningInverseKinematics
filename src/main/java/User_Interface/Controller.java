@@ -17,6 +17,9 @@ public class Controller {
         userInterface.CreateWindow();
     }
 
+    public void updateTarget(double targetX,double targetY){
+        userInterface.updateTarget(targetX,targetY);
+    }
 
     public void updateArmState(){
         userInterface.updateArmState(arm.getBasePointX(),arm.getBasePointY(),arm.getArmAngles(),arm.getLinkLengths(),arm.getMaxEnvironmentX(),arm.getMaxEnvironmentY()
