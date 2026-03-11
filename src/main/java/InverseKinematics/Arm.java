@@ -57,7 +57,7 @@ public class Arm {
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
 
         armAngles = new double[numOfLinks];
-        Arrays.fill(armAngles,0);
+        Arrays.fill(armAngles,45);
         armAngles[0] = Constants.DEFAULT_ANGLE1;
 
 
@@ -147,7 +147,22 @@ public class Arm {
         return handPointX;
     }
 
-    public double getRadius() {
-        return radius;
+
+    public double getMaxEnvironmentX(){
+        return Constants.MAX_ENVIRONMENT_X;
     }
+
+    public double getMaxEnvironmentY(){
+        return Constants.MAX_ENVIRONMENT_Y;
+    }
+
+    public double getMinEnvironmentX(){
+        return Constants.MIN_ENVIRONMENT_X;
+    }
+
+    public double getMinEnvironmentY(){
+        return Constants.MIN_ENVIRONMENT_Y;
+    }
+
+
 }
