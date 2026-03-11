@@ -38,8 +38,12 @@ public class Arm {
         this.numOfLinks  = Constants.DEFAULT_NUM_OF_LINKS;
         linkLengths= new double[numOfLinks];
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
+
         armAngles = new double[numOfLinks];
-        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        Arrays.fill(armAngles,0);
+        armAngles[0] = Constants.DEFAULT_ANGLE1;
+
+
         calculateForwardKinematics(armAngles);
         calculateRadius();
 
@@ -51,14 +55,19 @@ public class Arm {
         this.numOfLinks  = Constants.DEFAULT_NUM_OF_LINKS;
         linkLengths= new double[numOfLinks];
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
+
         armAngles = new double[numOfLinks];
-        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        Arrays.fill(armAngles,0);
+        armAngles[0] = Constants.DEFAULT_ANGLE1;
+
+
         calculateForwardKinematics(armAngles);
         calculateRadius();
     }
 
     public void resetArm(){
-        Arrays.fill(armAngles,Constants.DEFAULT_ANGLE);
+        Arrays.fill(armAngles,0);
+        armAngles[0] = Constants.DEFAULT_ANGLE1;
         calculateForwardKinematics(armAngles);
     }
 

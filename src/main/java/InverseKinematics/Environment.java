@@ -14,18 +14,17 @@ public class Environment {
         double targetX;
         double targetY;
         do {
-            targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
-            targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
-//            targetX = random.nextDouble(2)+4;
-//            targetY = random.nextDouble(2)+4;
+//            targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
+//            targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
+            targetX = random.nextDouble(8)-4;
+            targetY = random.nextDouble(8)-4;
+//            targetX = 4;
+//            targetY = 4;
         }while (!agent.getArm().isPointReachable(targetX,targetY));
 
-//        double targetX = 5;
-//        double targetY = 4;
+
         agent.getArm().resetArm();
 
-        //reset best distance
-//        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-targetX,2)+Math.pow(agent.getArm().getHandPointY()-targetY,2));
 
         // need to check collisions between links with forward kinematics.
 
@@ -36,7 +35,6 @@ public class Environment {
             agent.getCurrentState().setTargetX(targetX);
             agent.getCurrentState().setTargetY(targetY);
             agent.getCurrentState().setAngles(agent.getArm().getArmAngles());
-//            agent.getCurrentState().setBestDistance(distance);
         }
 
     }
@@ -46,6 +44,7 @@ public class Environment {
 
         int jointIndex = actionIndex / 2;// index calculation,each pair of indexes are two actions on the same angle
         double angleStep = (actionIndex % 2 == 0) ? Constants.ANGLE_CHANGE_STEP : Constants.ANGLE_CHANGE_STEP*-1;//first action in pair is UP, second one is DOWN
+
         double[] anglesCopy = new double[agent.getCurrentState().getAngles().length];
         System.arraycopy(agent.getCurrentState().getAngles(), 0, anglesCopy, 0, anglesCopy.length);//more efficient copying
         anglesCopy[jointIndex] += angleStep; //add angleStep based on the action chosen
@@ -99,12 +98,15 @@ public class Environment {
     }
 
     public void printAnglesAndPositions(){
+        System.out.println("TargetX: " + agent.getCurrentState().getTargetX() + " targetY: " + agent.getCurrentState().getTargetY());
         for (int i = 0; i < agent.getArm().getArmAngles().length; i++){
             System.out.print(" Angle " + (i+1) + ": " + agent.getArm().getArmAngles()[i]);
         }
         System.out.println();
-        System.out.println("TargetX: " + agent.getCurrentState().getTargetX() + " targetY: " + agent.getCurrentState().getTargetY());
         System.out.println("X: " + agent.getArm().getHandPointX() + " Y: " + agent.getArm().getHandPointY());
+        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
+        System.out.println("Distance From target: " + distance);
+        System.out.println("-----------------------");
     }
 
     public Agent getAgent() {
