@@ -72,9 +72,11 @@ public class Agent {
     // normalized inputs to 0-1,because neural networks hate big numbers that cause gradient explosion.
     private double[] convertFromStateToInputs(State state){
         double[] inputs = new double[state.getAngles().length*2 + 2];
+        double sumAngles = 0;
         for(int i = 0; i < state.getAngles().length ; i++){
-            //converting angles to sin and cos
-            double radianAngle = Math.toRadians(state.getAngles()[i]);
+            //converting angles to sin and cos and using accumulated angles to help the network understand inverseKinematics better.
+            sumAngles += state.getAngles()[i];
+            double radianAngle = Math.toRadians(sumAngles);
             inputs[i*2] = Math.cos(radianAngle);
             inputs[i*2 + 1] = Math.sin(radianAngle);
         }
@@ -90,10 +92,6 @@ public class Agent {
 
     private double normalizeY(double y){
         return 2 * ((y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y)) -1;
-    }
-
-    private double normalizeBestDistance(double distance){
-        return 2 * (distance)/(2*agent.getArm().getRadius())-1;
     }
 
 
@@ -129,14 +127,6 @@ public class Agent {
     }
 
 
-    private static double findMax(double[] numbers){
-        double max = numbers[0];
-        for (int i = 1; i <numbers.length ; i++) {
-            if (numbers[i] > max)
-                max = numbers[i];
-        }
-        return max;
-    }
 
     public void updateTargetNetwork(){
         targetNetwork.copyNetwork(mainNetwork);
