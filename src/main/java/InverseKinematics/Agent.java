@@ -79,7 +79,6 @@ public class Agent {
             inputs[i*2 + 1] = Math.sin(radianAngle);
         }
 
-
         inputs[inputs.length-2] = normalizeX(state.getTargetX());
         inputs[inputs.length-1] = normalizeY(state.getTargetY());
         return inputs;
@@ -93,6 +92,10 @@ public class Agent {
         return 2 * ((y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y)) -1;
     }
 
+    private double normalizeBestDistance(double distance){
+        return 2 * (distance)/(2*agent.getArm().getRadius())-1;
+    }
+
 
 
     private int chooseExploreExploit(double[] actionQValues,boolean useEpsilon){
@@ -102,11 +105,10 @@ public class Agent {
             index = findIndexOfMax(actionQValues);
         }
         else{
-            index = random.nextInt(arm.getArmAngles().length*2);
+            index = random.nextInt(actionQValues.length);
         }
         return index;
     }
-
 
     public void decreaseEpsilon(){
         if(epsilon > 0.01f)
@@ -153,8 +155,8 @@ public class Agent {
         for(int i = 0; i < Constants.BATCH_SIZE; i++){
             //Maybe shouldn't have connection from agent to Library.BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
-            double[] mainInputs = convertFromStateToInputs(bufferTransition.getCurrentState());
-            double[] targetInputs = convertFromStateToInputs(bufferTransition.getNextState());
+            double[] mainInputs = convertFromStateToInputs((State)bufferTransition.getCurrentState());
+            double[] targetInputs = convertFromStateToInputs((State)bufferTransition.getNextState());
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             sumQValue += preQValue;
@@ -162,27 +164,45 @@ public class Agent {
             double avgQValue = sumQValue/learnCounter;
 
             //Bellman equation. Only add maxArg when not in the terminal state
+            int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() || bufferTransition.doIllegalMove() ? 0 :
-                            Constants.DISCOUNT_FACTOR * findMax(targetNetwork.forwardPass(targetInputs)));
+                            Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[bestActionIndex]);
 
 
-            double loss = Math.pow(preQValue-targetQValue,2);
+            //logging data
+            double loss;
+            double meanAbsoluteError = Math.abs(preQValue-targetQValue);
+            if (meanAbsoluteError >  Constants.HUBER_LOSS_ALPHA){
+                loss = meanAbsoluteError;
+            }
+            else {
+                loss = 2 * (preQValue - targetQValue);
+            }
             sumLoss += loss;
             double avgLoss = sumLoss/learnCounter;
-            if(learnCounter % 5000 == 0) {
+            if(learnCounter % 30000 == 0) {
                 logger.info("avg Q Value updated: " + avgQValue);
                 logger.info("avg loss: " + avgLoss);
                 logger.info("epsilon: " + epsilon);
             }
 
 
-            double outputLayerDelta = 2*(preQValue-targetQValue);
+            double outputLayerDelta = huberLossDer(preQValue,targetQValue);
             mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
 
         }
 
         mainNetwork.updateWeights(Constants.BATCH_SIZE);
+    }
+
+
+    private double huberLossDer(double preQValue, double targetQValue){
+        double MeanAbsoluteError = Math.abs(preQValue-targetQValue);
+        if (MeanAbsoluteError >  Constants.HUBER_LOSS_ALPHA){
+            return (preQValue-targetQValue)/Math.abs(preQValue-targetQValue);
+        }
+        return 2*(preQValue-targetQValue);
     }
 
 
@@ -208,13 +228,6 @@ public class Agent {
     }
 
 
-    public double getBestDistance(){
-        return bestDistanceInEp;
-    }
-
-    public void setBestDistance(double bestDistance){
-        bestDistanceInEp = bestDistance;
-    }
 
 
 }

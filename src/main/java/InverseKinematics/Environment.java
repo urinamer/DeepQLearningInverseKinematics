@@ -16,14 +16,19 @@ public class Environment {
         do {
             targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
             targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
+//            targetX = random.nextDouble(2)+4;
+//            targetY = random.nextDouble(2)+4;
         }while (!agent.getArm().isPointReachable(targetX,targetY));
 
 //        double targetX = 5;
 //        double targetY = 4;
         agent.getArm().resetArm();
 
+        //reset best distance
+//        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-targetX,2)+Math.pow(agent.getArm().getHandPointY()-targetY,2));
 
         // need to check collisions between links with forward kinematics.
+
         if(agent.getCurrentState() == null){
             agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles()));
         }
@@ -31,10 +36,8 @@ public class Environment {
             agent.getCurrentState().setTargetX(targetX);
             agent.getCurrentState().setTargetY(targetY);
             agent.getCurrentState().setAngles(agent.getArm().getArmAngles());
+//            agent.getCurrentState().setBestDistance(distance);
         }
-        //reset best distance
-        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
-        agent.setBestDistance(distance);
 
     }
 
@@ -49,15 +52,15 @@ public class Environment {
         anglesCopy[jointIndex] = (anglesCopy[jointIndex]%360 +360) %360;//normalizing angles to 0 - 360 degrees
 
 
-       /* double oldX = agent.getArm().getHandPointX();
-        double oldY = agent.getArm().getHandPointY();*/
+        double oldX = agent.getArm().getHandPointX();
+        double oldY = agent.getArm().getHandPointY();
         double reward;
         int done;
         double[] rewardDoneIllegalArr = new double[3];
 
         // need to check collisions between links with forward kinematics.
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            double[] computedReward = computeReward();
+            double[] computedReward = computeReward(oldX,oldY);
             reward = computedReward[0];
             if(computedReward[1] == 1)
                 done = 1;
@@ -79,20 +82,20 @@ public class Environment {
     }
 
 
-    private double[] computeReward(){// returns double array where [0] is reward and [1] is if it reached the target
+    private double[] computeReward(double oldX,double oldY){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
-//        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
+        double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
         //Maybe change to relation based reward
 
-        if(newDistance <= Constants.DISTANCE_MIN_MARGIN)
+        if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
-        if(newDistance < agent.getBestDistance()) {
-            agent.setBestDistance(newDistance);//updating bestDistance
-            return new double[]{Constants.REWARD, 0};
-        }
-
-        return new double[]{Constants.PUNISHMENT,0};
-
+//        if(newDistance < agent.getCurrentState().getBestDistance()) {
+//            agent.getCurrentState().setBestDistance(newDistance);//updating bestDistance
+//            return new double[]{Constants.REWARD, 0};
+//        }
+        double reward = (currDistance-newDistance)*10;
+//        return new double[]{Constants.PUNISHMENT,0};
+        return new double[]{reward,0};
     }
 
     public void printAnglesAndPositions(){

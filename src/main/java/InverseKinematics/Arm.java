@@ -67,8 +67,10 @@ public class Arm {
         double currentX = getBasePointX();
         double currentY = getBasePointY();
 
-        //adding vectors to get current hand position
+        //adding vectors to get current hand position.
+        double sumAngles = 0;
         for(int i =0; i < getNumOfLinks(); i++){
+            sumAngles += angles[i];
             currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(angles[i]));
             currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(angles[i]));
         }
@@ -136,4 +138,7 @@ public class Arm {
         return handPointX;
     }
 
+    public double getRadius() {
+        return radius;
+    }
 }
