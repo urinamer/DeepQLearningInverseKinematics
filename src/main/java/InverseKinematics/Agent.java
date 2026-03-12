@@ -147,6 +147,8 @@ public class Agent {
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
             double[] mainInputs = convertFromStateToInputs((State)bufferTransition.getCurrentState());
             double[] targetInputs = convertFromStateToInputs((State)bufferTransition.getNextState());
+            //important to have forwardPass(mainInputs) first so layerOutputs has the inputs for mainInputs and not targetInputs
+            int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 
             sumQValue += preQValue;
@@ -154,7 +156,6 @@ public class Agent {
             double avgQValue = sumQValue/learnCounter;
 
             //Bellman equation. Only add maxArg when not in the terminal state
-            int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
             double targetQValue = bufferTransition.getReward() +
                     (bufferTransition.isDone() || bufferTransition.doIllegalMove() ? 0 :
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[bestActionIndex]);

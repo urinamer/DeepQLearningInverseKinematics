@@ -25,7 +25,7 @@ public class Constants {
     public static final int MAX_STEPS_PER_EPISODE = 500;
     public static final int BATCH_SIZE = 128;
     public static final int MIN_NUM_OF_TRANSITIONS = 5000;
-    public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 1000;
+    public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 5000;
 
 
 
