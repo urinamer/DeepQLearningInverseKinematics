@@ -14,12 +14,12 @@ public class Environment {
         double targetX;
         double targetY;
         do {
-//            targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
-//            targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
-            targetX = random.nextDouble(8)-4;
-            targetY = random.nextDouble(8)-4;
-//            targetX = 4;
-//            targetY = 4;
+            targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
+            targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
+//            targetX = random.nextDouble(8)-4;
+//            targetY = random.nextDouble(8)-4;
+//            targetX = 0;
+//            targetY = 0;
         }while (!agent.getArm().isPointReachable(targetX,targetY));
 
 
@@ -88,12 +88,11 @@ public class Environment {
 
         if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
-//        if(newDistance < agent.getCurrentState().getBestDistance()) {
-//            agent.getCurrentState().setBestDistance(newDistance);//updating bestDistance
-//            return new double[]{Constants.REWARD, 0};
-//        }
-        double reward = (currDistance-newDistance)*10;
-//        return new double[]{Constants.PUNISHMENT,0};
+
+        int rewardMultiplier = Constants.REWARD_MULTIPLIER;
+        if (newDistance < 2)
+            rewardMultiplier *= 5;
+        double reward = (currDistance-newDistance)*rewardMultiplier;
         return new double[]{reward,0};
     }
 
