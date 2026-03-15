@@ -37,6 +37,7 @@ public class Constants {
     public static final double REACHED_POINT_REWARD = 10;
     public static final double HITTING_WALLS_PENALTY = -5;
     public static final double TIME_WASTED_PENALTY = 0.01;
+    public static final double REPEATED_ACTION_PENALTY = -5;
     public static final int REWARD_MULTIPLIER = 10;
 
 
