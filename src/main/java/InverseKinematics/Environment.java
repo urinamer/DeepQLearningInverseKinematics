@@ -92,7 +92,7 @@ public class Environment {
         int rewardMultiplier = Constants.REWARD_MULTIPLIER;
         if (newDistance < 2)
             rewardMultiplier *= 5;
-        double reward = (currDistance-newDistance)*rewardMultiplier;
+        double reward = (currDistance-newDistance)*rewardMultiplier - Constants.TIME_WASTED_PENALTY;
         return new double[]{reward,0};
     }
 
