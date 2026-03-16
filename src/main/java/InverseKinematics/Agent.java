@@ -17,9 +17,6 @@ public class Agent {
     private ReplayBuffer replayBuffer;
 
 
-    private double bestDistanceInEp;
-
-
     //global variables save or not create over and over
     private float epsilon = 1;
     private Random random = new Random();
@@ -49,7 +46,7 @@ public class Agent {
     }
 
 
-    //for testing
+    //for testing use or don't use epsilon greedy
     public int makeAction(boolean useEpsilon){//returns QvalueIndexPair of chosen action
         return chooseBestAction(useEpsilon);
     }
@@ -149,7 +146,7 @@ public class Agent {
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
             double[] mainInputs = convertFromStateToInputs((State)bufferTransition.getCurrentState());
             double[] targetInputs = convertFromStateToInputs((State)bufferTransition.getNextState());
-            //important to have forwardPass(mainInputs) first so layerOutputs has the inputs for mainInputs and not targetInputs
+            //important to have forwardPass(mainInputs) last so layerOutputs has the inputs for mainInputs and not targetInputs
             int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
             double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
 

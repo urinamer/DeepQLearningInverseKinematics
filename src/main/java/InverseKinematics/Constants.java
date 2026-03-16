@@ -24,18 +24,20 @@ public class Constants {
 
     public static final int MAX_STEPS_PER_EPISODE = 500;
     public static final int BATCH_SIZE = 128;
-    public static final int MIN_NUM_OF_TRANSITIONS = 5000;
+    public static final int MIN_NUM_OF_TRANSITIONS = 1000;
     public static final int STEPS_TO_UPDATE_TARGET_NETWORK = 5000;
 
 
 
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final float EPSILON_DECAY = 0.9995f;//always change when changing numOfEpisodes
+    public static final float EPSILON_DECAY = 0.994f;//always change when changing numOfEpisodes
     public static final float HUBER_LOSS_ALPHA = 1.0f;
 
     public static final double MIN_DISTANCE = 0.5;
     public static final double REACHED_POINT_REWARD = 10;
     public static final double HITTING_WALLS_PENALTY = -5;
+    public static final double TIME_WASTED_PENALTY = 0.01;
+    public static final double REPEATED_ACTION_PENALTY = -5;
     public static final int REWARD_MULTIPLIER = 10;
 
 

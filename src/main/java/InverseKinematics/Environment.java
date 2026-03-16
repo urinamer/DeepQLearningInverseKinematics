@@ -5,6 +5,9 @@ public class Environment {
     private Agent agent;
     private Random random;
 
+    private double lastIndexChange = -1;
+    private double lastAngleChange = 0;
+
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
         random = new Random();
@@ -61,15 +64,14 @@ public class Environment {
         int done;
         double[] rewardDoneIllegalArr = new double[3];
 
-        // need to check collisions between links with forward kinematics.
+
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            double[] computedReward = computeReward(oldX,oldY);
+            double[] computedReward = computeReward(oldX,oldY,jointIndex,angleStep);//returns reward and if it reached the target
             reward = computedReward[0];
             if(computedReward[1] == 1)
                 done = 1;
             else
                 done = 0;
-
             rewardDoneIllegalArr[2] = 0;
         }
         else{
@@ -77,6 +79,9 @@ public class Environment {
             rewardDoneIllegalArr[2] = 1;
             done = 0;
         }
+        lastIndexChange = jointIndex;
+        lastAngleChange = angleStep;
+
         rewardDoneIllegalArr[0] = reward;
         rewardDoneIllegalArr[1] = done;
 
@@ -85,18 +90,21 @@ public class Environment {
     }
 
 
-    private double[] computeReward(double oldX,double oldY){// returns double array where [0] is reward and [1] is if it reached the target
+    private double[] computeReward(double oldX,double oldY,double currentIndexChange,double currentAngleStep){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
-        //Maybe change to relation based reward
 
+        //if the arm reached the target, return reward and done = 1
         if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
+        //if agent did inverse actions one after another return punishment.
+        if(currentIndexChange == lastIndexChange && currentAngleStep == -lastAngleChange)
+            return new double[]{Constants.REPEATED_ACTION_PENALTY,0};
 
         int rewardMultiplier = Constants.REWARD_MULTIPLIER;
         if (newDistance < 2)
             rewardMultiplier *= 5;
-        double reward = (currDistance-newDistance)*rewardMultiplier;
+        double reward = (currDistance-newDistance)*rewardMultiplier - Constants.TIME_WASTED_PENALTY;
         return new double[]{reward,0};
     }
 

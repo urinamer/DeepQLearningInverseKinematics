@@ -11,15 +11,15 @@ public class Main {
         Trainer trainer = new Trainer(arm,controller);
 //        controller.createWindow();
 //        trainer.loadModel();
-        trainer.trainModel(1);//always change epsilon decay before changing
+//        trainer.trainModel(1000);//always change epsilon decay before changing
+
 //
 //
-//
-       trainer.loadModel();
+        trainer.loadModel();
         double avg_steps = trainer.testModel(1);
         System.out.println("avg_steps: " + avg_steps);
-
-
+////
+//
 
 
     }

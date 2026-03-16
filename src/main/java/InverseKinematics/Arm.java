@@ -1,6 +1,7 @@
 package InverseKinematics;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Arm {
     private double basePointX;
@@ -12,6 +13,8 @@ public class Arm {
     private double[] armAngles;
 
     private double radius;
+
+    Random random = new Random();
 
     public Arm(double basePointX, double basePointY, int numOfLinks,double[] linkLengths, double[] armAngles) {
         this.basePointX = basePointX;
@@ -57,8 +60,11 @@ public class Arm {
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
 
         armAngles = new double[numOfLinks];
-        Arrays.fill(armAngles,45);
-        armAngles[0] = Constants.DEFAULT_ANGLE1;
+        //randomizing initial angles
+        for(int i = 0; i < numOfLinks; i++){
+            armAngles[i] = random.nextDouble()*180;
+        }
+//        armAngles[0] = Constants.DEFAULT_ANGLE1;
 
 
         calculateForwardKinematics(armAngles);
@@ -66,8 +72,11 @@ public class Arm {
     }
 
     public void resetArm(){
-        Arrays.fill(armAngles,0);
-        armAngles[0] = Constants.DEFAULT_ANGLE1;
+        //randomizing initial angles
+        for(int i = 0; i < numOfLinks; i++){
+            armAngles[i] = random.nextDouble()*180;
+        }
+//        armAngles[0] = Constants.DEFAULT_ANGLE1;
         calculateForwardKinematics(armAngles);
     }
 
