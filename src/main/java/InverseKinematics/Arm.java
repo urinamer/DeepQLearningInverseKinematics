@@ -173,5 +173,7 @@ public class Arm {
         return Constants.MIN_ENVIRONMENT_Y;
     }
 
-
+    public double getRadius() {
+        return radius;
+    }
 }

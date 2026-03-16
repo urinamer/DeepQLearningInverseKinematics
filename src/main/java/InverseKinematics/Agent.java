@@ -33,8 +33,8 @@ public class Agent {
         this.arm = arm;
         replayBuffer = new ReplayBuffer();
         //should change to make scalable with more than 2 DOF
-        mainNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
-        targetNetwork = new Network(arm.getArmAngles().length+2,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);
+        mainNetwork = new Network(2*arm.getArmAngles().length+4,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);//
+        targetNetwork = new Network(2*arm.getArmAngles().length+4,arm.getArmAngles().length*2,Constants.NUM_OF_LAYERS,Constants.NUM_OF_NEURONS_IN_LAYER);
         targetNetwork.copyNetwork(mainNetwork);
     }
 
@@ -78,8 +78,8 @@ public class Agent {
             inputs[i*2 + 1] = Math.sin(radianAngle);
         }
 
-        inputs[inputs.length-4] = normalizeX(state.getDiffX());
-        inputs[inputs.length-3] = normalizeY(state.getDiffY());
+        inputs[inputs.length-4] = normalizeDiff(state.getDiffX());
+        inputs[inputs.length-3] = normalizeDiff(state.getDiffY());
         inputs[inputs.length-2] = normalizeX(state.getTargetX());
         inputs[inputs.length-1] = normalizeY(state.getTargetY());
         return inputs;
@@ -91,6 +91,10 @@ public class Agent {
 
     private double normalizeY(double y){
         return 2 * ((y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y)) -1;
+    }
+
+    private double normalizeDiff(double diff){
+        return (diff)/(2*arm.getRadius());
     }
 
 

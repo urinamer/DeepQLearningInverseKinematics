@@ -5,8 +5,8 @@ public class Environment {
     private Agent agent;
     private Random random;
 
-    private double lastIndexChange = -1;
-    private double lastAngleChange = 0;
+    private double lastIndexChange;
+    private double lastAngleChange;
 
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
@@ -28,6 +28,8 @@ public class Environment {
 
         agent.getArm().resetArm();
 
+        lastIndexChange = -1;
+        lastAngleChange = 0;
 
         // need to check collisions between links with forward kinematics.
         double diffX = targetX - agent.getArm().getHandPointX();
@@ -79,6 +81,11 @@ public class Environment {
             rewardDoneIllegalArr[2] = 1;
             done = 0;
         }
+        double diffX = agent.getCurrentState().getTargetX() - agent.getArm().getHandPointX();
+        double diffY = agent.getCurrentState().getTargetY() - agent.getArm().getHandPointY();
+        agent.getCurrentState().setDiffX(diffX);
+        agent.getCurrentState().setDiffY(diffY);
+
         lastIndexChange = jointIndex;
         lastAngleChange = angleStep;
 
