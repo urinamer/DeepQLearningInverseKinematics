@@ -27,14 +27,18 @@ public class Environment {
 
 
         // need to check collisions between links with forward kinematics.
+        double diffX = targetX - agent.getArm().getHandPointX();
+        double diffY = targetY - agent.getArm().getHandPointY();
 
         if(agent.getCurrentState() == null){
-            agent.setCurrentState(new State(targetX,targetY,agent.getArm().getArmAngles()));
+            agent.setCurrentState(new State(targetX,targetY,diffX,diffY,agent.getArm().getArmAngles()));
         }
         else {
             agent.getCurrentState().setTargetX(targetX);
             agent.getCurrentState().setTargetY(targetY);
             agent.getCurrentState().setAngles(agent.getArm().getArmAngles());
+            agent.getCurrentState().setDiffX(diffX);
+            agent.getCurrentState().setDiffY(diffY);
         }
 
     }

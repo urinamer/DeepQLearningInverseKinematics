@@ -9,9 +9,9 @@ public class Main {
         UserInterface userInterface = new UserInterface();
         Controller controller = new Controller(arm,userInterface);
         Trainer trainer = new Trainer(arm,controller);
-        controller.createWindow();
+//        controller.createWindow();
 //        trainer.loadModel();
-//        trainer.trainModel(10000);//always change epsilon decay before changing
+        trainer.trainModel(1);//always change epsilon decay before changing
 //
 //
 //

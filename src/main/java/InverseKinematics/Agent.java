@@ -71,7 +71,7 @@ public class Agent {
     // understand that 360 degrees and 1 degree are very close and not very far.
     // normalized inputs to 0-1,because neural networks hate big numbers that cause gradient explosion.
     private double[] convertFromStateToInputs(State state){
-        double[] inputs = new double[state.getAngles().length*2 + 2];
+        double[] inputs = new double[state.getAngles().length*2 + 4];
         double sumAngles = 0;
         for(int i = 0; i < state.getAngles().length ; i++){
             //converting angles to sin and cos and using accumulated angles to help the network understand inverseKinematics better.
@@ -81,6 +81,8 @@ public class Agent {
             inputs[i*2 + 1] = Math.sin(radianAngle);
         }
 
+        inputs[inputs.length-4] = normalizeX(state.getDiffX());
+        inputs[inputs.length-3] = normalizeY(state.getDiffY());
         inputs[inputs.length-2] = normalizeX(state.getTargetX());
         inputs[inputs.length-1] = normalizeY(state.getTargetY());
         return inputs;
