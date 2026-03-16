@@ -15,7 +15,7 @@ public class Main {
 
 //
 //
-       trainer.loadModel();
+        trainer.loadModel();
         double avg_steps = trainer.testModel(1);
         System.out.println("avg_steps: " + avg_steps);
 ////

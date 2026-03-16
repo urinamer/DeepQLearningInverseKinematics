@@ -61,7 +61,7 @@ public class Trainer {
         int sumSteps = 0;
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
-
+            System.out.println("Episode: " + (i+1));
             controller.updateTarget(environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY());
             int countSteps = 0;
             boolean done = false;
