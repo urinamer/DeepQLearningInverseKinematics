@@ -30,7 +30,7 @@ public class Constants {
 
 
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final float EPSILON_DECAY = 0.994f;//always change when changing numOfEpisodes
+    public static final float EPSILON_DECAY = 0.9982f;//always change when changing numOfEpisodes
     public static final float HUBER_LOSS_ALPHA = 1.0f;
 
     public static final double MIN_DISTANCE = 0.5;
@@ -39,6 +39,7 @@ public class Constants {
     public static final double TIME_WASTED_PENALTY = 0.1;
     public static final double REPEATED_ACTION_PENALTY = -5;
     public static final int REWARD_MULTIPLIER = 10;
+    public static final int REWARD_MULTIPLIER_CLOSE = 15;
 
 
 

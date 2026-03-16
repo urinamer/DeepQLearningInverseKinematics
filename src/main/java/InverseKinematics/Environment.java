@@ -19,10 +19,7 @@ public class Environment {
         do {
             targetX = Constants.MIN_ENVIRONMENT_X + random.nextDouble() * (Constants.MAX_ENVIRONMENT_X-Constants.MIN_ENVIRONMENT_X);
             targetY = Constants.MIN_ENVIRONMENT_Y + random.nextDouble() * (Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y);
-//            targetX = random.nextDouble(8)-4;
-//            targetY = random.nextDouble(8)-4;
-//            targetX = 0;
-//            targetY = 0;
+
         }while (!agent.getArm().isPointReachable(targetX,targetY));
 
 
@@ -31,7 +28,6 @@ public class Environment {
         lastIndexChange = -1;
         lastAngleChange = 0;
 
-        // need to check collisions between links with forward kinematics.
         double diffX = targetX - agent.getArm().getHandPointX();
         double diffY = targetY - agent.getArm().getHandPointY();
 
@@ -110,7 +106,7 @@ public class Environment {
 
         int rewardMultiplier = Constants.REWARD_MULTIPLIER;
         if (newDistance < 2)
-            rewardMultiplier *= 5;
+            rewardMultiplier = Constants.REWARD_MULTIPLIER_CLOSE ;
         double reward = (currDistance-newDistance)*rewardMultiplier - Constants.TIME_WASTED_PENALTY;
         return new double[]{reward,0};
     }

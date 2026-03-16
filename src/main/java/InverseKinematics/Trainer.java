@@ -59,6 +59,7 @@ public class Trainer {
 
     public double testModel(int numOfEpisodes){
         int sumSteps = 0;
+        int numOfSuccess = 0;
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
             System.out.println("Episode: " + (i+1));
@@ -78,8 +79,13 @@ public class Trainer {
 
                 countSteps++;
             }
+
             sumSteps += countSteps;
+            if(done){
+                numOfSuccess++;
+            }
         }
+        System.out.println("num of success: " + numOfSuccess);
         return (double) sumSteps /numOfEpisodes;
     }
 }

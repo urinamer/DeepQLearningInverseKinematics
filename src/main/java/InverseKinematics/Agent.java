@@ -93,6 +93,7 @@ public class Agent {
         return 2 * ((y-Constants.MIN_ENVIRONMENT_Y)/(Constants.MAX_ENVIRONMENT_Y-Constants.MIN_ENVIRONMENT_Y)) -1;
     }
 
+    //not good if basePoint is not exactly in the center of the environment.
     private double normalizeDiff(double diff){
         return (diff)/(2*arm.getRadius());
     }
