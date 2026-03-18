@@ -10,6 +10,10 @@ public class Controller {
     public Controller(Arm arm,UserInterface userInterface){
         this.arm = arm;
         this.userInterface = userInterface;
+        userInterface.setArmBoundaries(arm.getMaxEnvironmentX(),arm.getMaxEnvironmentY()
+                ,arm.getMinEnvironmentX(),arm.getMinEnvironmentY());
+
+
     }
 
 
@@ -22,17 +26,10 @@ public class Controller {
     }
 
     public void updateArmState(){
-        userInterface.updateArmState(arm.getBasePointX(),arm.getBasePointY(),arm.getArmAngles(),arm.getLinkLengths(),arm.getMaxEnvironmentX(),arm.getMaxEnvironmentY()
-                ,arm.getMinEnvironmentX(),arm.getMinEnvironmentY());
+        userInterface.updateArmState(arm.getArmJoints());
     }
 
-//    private double linearMappingX(double x){
-//        x = ((x-minArmX)*(UserInterfaceConstants.MAX_ENVIRONMENT_SIZE))/(maxArmX-minArmX);
-//        return x;
-//    }
-//
-//    private double linearMappingY(double y){
-//        y = ((y-minArmY)*(UserInterfaceConstants.MAX_ENVIRONMENT_SIZE))/(maxArmY-minArmY);
-//        return UserInterfaceConstants.MAX_ENVIRONMENT_SIZE - y;
-//    }
+
+
+
 }

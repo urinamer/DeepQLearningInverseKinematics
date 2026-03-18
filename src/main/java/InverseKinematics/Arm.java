@@ -106,6 +106,28 @@ public class Arm {
 
     }
 
+
+    public double[][] getArmJoints(){
+        double[][] armJoints = new double[armAngles.length+1][2];
+        double currentX = getBasePointX();
+        double currentY = getBasePointY();
+
+        //adding vectors to get current hand position.Using sum angles to move other joints when an earlier joint moved.
+        double sumAngles = 0;
+        int i;
+        for(i =0; i < numOfLinks; i++){
+            armJoints[i][0] = currentX;
+            armJoints[i][1] = currentY;
+            sumAngles += armAngles[i];
+            currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(sumAngles));
+            currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(sumAngles));
+        }
+        armJoints[i][0] = currentX;
+        armJoints[i][1] = currentY;
+
+        return armJoints;
+    }
+
     public boolean isPointReachable(double x, double y){
         if(!(x < Constants.MAX_ENVIRONMENT_X && x > Constants.MIN_ENVIRONMENT_X && y < Constants.MAX_ENVIRONMENT_Y && y > Constants
                 .MIN_ENVIRONMENT_Y))
