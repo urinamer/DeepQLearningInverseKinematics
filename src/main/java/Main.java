@@ -7,17 +7,18 @@ public class Main {
     public static void main(String[] args) {
         Arm arm = new Arm();
         UserInterface userInterface = new UserInterface();
-        Controller controller = new Controller(arm,userInterface);
-        Trainer trainer = new Trainer(arm,controller);
+        Trainer trainer = new Trainer(arm);
+        Controller controller = new Controller(arm,userInterface,trainer);
+
         controller.createWindow();
 //        trainer.loadModel();
-//        trainer.trainModel(3000);//always change epsilon decay before changing
+//        trainer.trainModel(1000);//always change epsilon decay before changing
 
 //
 //
         trainer.loadModel();
-        double avg_steps = trainer.testModel(1);
-        System.out.println("avg_steps: " + avg_steps);
+//        double avg_steps = trainer.testModel(1);
+//        System.out.println("avg_steps: " + avg_steps);
 
     }
 }

@@ -14,6 +14,8 @@ public class Arm {
 
     private double radius;
 
+
+
     Random random = new Random();
 
     public Arm(double basePointX, double basePointY, int numOfLinks,double[] linkLengths, double[] armAngles) {
@@ -104,6 +106,28 @@ public class Arm {
 
         return false;
 
+    }
+
+
+    public double[][] getArmJoints(){
+        double[][] armJoints = new double[armAngles.length+1][2];
+        double currentX = getBasePointX();
+        double currentY = getBasePointY();
+
+        //adding vectors to get current hand position.Using sum angles to move other joints when an earlier joint moved.
+        double sumAngles = 0;
+        int i;
+        for(i =0; i < numOfLinks; i++){
+            armJoints[i][0] = currentX;
+            armJoints[i][1] = currentY;
+            sumAngles += armAngles[i];
+            currentX += getLinkLengths()[i]*Math.cos(Math.toRadians(sumAngles));
+            currentY += getLinkLengths()[i]*Math.sin(Math.toRadians(sumAngles));
+        }
+        armJoints[i][0] = currentX;
+        armJoints[i][1] = currentY;
+
+        return armJoints;
     }
 
     public boolean isPointReachable(double x, double y){
