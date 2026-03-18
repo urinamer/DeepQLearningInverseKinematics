@@ -14,6 +14,8 @@ public class Arm {
 
     private double radius;
 
+
+
     Random random = new Random();
 
     public Arm(double basePointX, double basePointY, int numOfLinks,double[] linkLengths, double[] armAngles) {

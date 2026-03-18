@@ -1,18 +1,17 @@
 package InverseKinematics;
 
-import User_Interface.Controller;
-import User_Interface.UserInterface;
+import java.util.ArrayList;
 
 public class Trainer {
     Environment environment;
     Arm arm;
-    Controller controller;
 
 
-    public Trainer(Arm arm, Controller controller) {
+
+
+    public Trainer(Arm arm) {
         this.environment = new Environment(arm);
         this.arm = arm;
-        this.controller = controller;
     }
 
     public void loadModel(){
@@ -63,7 +62,7 @@ public class Trainer {
         for (int i = 0; i < numOfEpisodes; i++) {
             environment.initNewEpisode();
             System.out.println("Episode: " + (i+1));
-            controller.updateTarget(environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY());
+
             int countSteps = 0;
             boolean done = false;
             while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
@@ -74,8 +73,6 @@ public class Trainer {
                 done = rewardArr[1] == 1;
 
                 environment.printAnglesAndPositions();
-
-                controller.updateArmState();
 
                 countSteps++;
             }
@@ -88,4 +85,27 @@ public class Trainer {
         System.out.println("num of success: " + numOfSuccess);
         return (double) sumSteps /numOfEpisodes;
     }
+
+
+    public ArrayList<double[][]> newEpisode(){
+        environment.initNewEpisode();
+        ArrayList<double[][]> episodeInfo = new ArrayList<>();
+        episodeInfo.add(new double[][]{{environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY()}});
+        episodeInfo.add(arm.getArmJoints());
+        int countSteps = 0;
+        boolean done = false;
+        while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
+            int actionIndex = environment.getAgent().makeAction(false);
+            double[] rewardArr = environment.step(actionIndex);
+            done = rewardArr[1] == 1;
+            countSteps++;
+
+            episodeInfo.add(arm.getArmJoints());
+        }
+        System.out.println("num of steps: " + countSteps);
+        return episodeInfo;
+    }
+
+
+
 }

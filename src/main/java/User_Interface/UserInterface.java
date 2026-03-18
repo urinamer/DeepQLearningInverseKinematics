@@ -2,14 +2,19 @@ package User_Interface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class UserInterface extends JPanel{
 
-    private double[][] armJoints;
+    private ArrayList<double[][]> episodeArmPositions;
+    private int positionIndex;
+
 
     private double minArmX;
     private double minArmY;
@@ -21,8 +26,16 @@ public class UserInterface extends JPanel{
 
 
     //components
-    JScrollPane armPositionScrollBar;
+    JScrollBar armScrollBar;
+    JButton newEpisodeButton;
 
+    public UserInterface(){
+        armScrollBar = new JScrollBar(JScrollBar.VERTICAL);
+        newEpisodeButton = new JButton("New Episode");
+
+
+        positionIndex = 0;
+    }
 
     void CreateWindow(){
         JFrame mainFrame = new JFrame("Arm Simulation");
@@ -36,30 +49,32 @@ public class UserInterface extends JPanel{
 
 
         //adding scroll bar
-        JScrollBar armScrollBar = new JScrollBar(JScrollBar.VERTICAL);
         armScrollBar.setPreferredSize(new Dimension(30, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE));
         mainFrame.add(armScrollBar, BorderLayout.EAST);
 
         //control panel
         JPanel controlPanel = new JPanel();
-        controlPanel.add(new JButton("Reset Arm"));
-        controlPanel.add(new JButton("Randomize Position"));
+        controlPanel.add(newEpisodeButton);
         mainFrame.add(controlPanel, BorderLayout.SOUTH);
 
-        mainFrame.pack(); // Automatically sizes the window to fit everything
-        mainFrame.setLocationRelativeTo(null); // Centers window on screen
+        mainFrame.pack(); //automatically sizes the window to fit everything
+        mainFrame.setLocationRelativeTo(null); //centers window on screen
         mainFrame.setVisible(true);
     }
 
 
-
-    void updateTarget(double targetX,double targetY){
-        this.targetX = targetX;
-        this.targetY = targetY;
+    //updates the ui based of the current new episode.
+    void updateEpisodeInfo(ArrayList<double[][]> episodeInfo){
+        this.episodeArmPositions = new ArrayList<>(episodeInfo.subList(1,episodeInfo.size()));
+        this.targetX = episodeInfo.get(0)[0][0];
+        this.targetY = episodeInfo.get(0)[0][1];
+        armScrollBar.setMaximum(this.episodeArmPositions.size()-1 + armScrollBar.getModel().getExtent());
+        repaint();
     }
 
-    void updateArmState(double[][] armJoints){
-        this.armJoints = armJoints;
+    //updates the current position of the arm in the episode
+    void updatePositionIndex(int positionIndex){
+        this.positionIndex = positionIndex;
         repaint();
     }
 
@@ -91,17 +106,17 @@ public class UserInterface extends JPanel{
 
             //drawing basePoint
             g2.setColor(UserInterfaceConstants.BASE_COLOR);
-            Ellipse2D.Double basePoint = new Ellipse2D.Double(linearMappingX(armJoints[0][0]) - 2.5, linearMappingY(armJoints[0][1]) - 2.5, 5, 5);
+            Ellipse2D.Double basePoint = new Ellipse2D.Double(linearMappingX(episodeArmPositions.get(positionIndex)[0][0]) - 2.5, linearMappingY(episodeArmPositions.get(positionIndex)[0][1]) - 2.5, 5, 5);
             g2.draw(basePoint);
 
 
             //drawing arm
-            for (int i = 1; i < armJoints.length; i++) {
+            for (int i = 1; i < episodeArmPositions.get(0).length; i++) {
 
-                double mappedPreviousX = linearMappingX(armJoints[i - 1][0]);
-                double mappedPreviousY = linearMappingY(armJoints[i - 1][1]);
-                double mappedCurrentX = linearMappingX(armJoints[i][0]);
-                double mappedCurrentY = linearMappingY(armJoints[i][1]);
+                double mappedPreviousX = linearMappingX(episodeArmPositions.get(positionIndex)[i - 1][0]);
+                double mappedPreviousY = linearMappingY(episodeArmPositions.get(positionIndex)[i - 1][1]);
+                double mappedCurrentX = linearMappingX(episodeArmPositions.get(positionIndex)[i][0]);
+                double mappedCurrentY = linearMappingY(episodeArmPositions.get(positionIndex)[i][1]);
 
                 //drawing links
                 g2.setColor(UserInterfaceConstants.LINK_COLOR);
@@ -128,6 +143,15 @@ public class UserInterface extends JPanel{
     private double linearMappingY(double y){
         y = ((y-minArmY)*(UserInterfaceConstants.MAX_ENVIRONMENT_SIZE))/(maxArmY-minArmY);
         return UserInterfaceConstants.MAX_ENVIRONMENT_SIZE - y;
+    }
+
+
+    public void setArmScrollBarListener(AdjustmentListener adjustmentListener){
+        armScrollBar.addAdjustmentListener(adjustmentListener);
+    }
+
+    public void setNewEpisodeButtonListener(ActionListener actionListener){
+        newEpisodeButton.addActionListener(actionListener);
     }
 
 
