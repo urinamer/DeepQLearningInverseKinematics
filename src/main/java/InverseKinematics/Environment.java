@@ -8,6 +8,8 @@ public class Environment {
     private double lastIndexChange;
     private double lastAngleChange;
 
+
+
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
         random = new Random();
@@ -45,11 +47,19 @@ public class Environment {
     }
 
 
-    public double[] step(int actionIndex){//returns reward
+    public double[] step(int actionIndex){//returns reward, is done and if did illegal move
+        //dynamic stepSize.
+        double stepSize;
+        double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
+        if(distance > Constants.DISTANCE_CLOSE)
+            stepSize = Constants.STEP_SIZE;
+        else
+            stepSize = Constants.STEP_SIZE_CLOSE;
 
         int jointIndex = actionIndex / 2;// index calculation,each pair of indexes are two actions on the same angle
-        double angleStep = (actionIndex % 2 == 0) ? Constants.ANGLE_CHANGE_STEP : Constants.ANGLE_CHANGE_STEP*-1;//first action in pair is UP, second one is DOWN
+        double angleStep = (actionIndex % 2 == 0) ? stepSize : stepSize*-1;//first action in pair is UP, second one is DOWN
 
+        //apply action to angle
         double[] anglesCopy = new double[agent.getCurrentState().getAngles().length];
         System.arraycopy(agent.getCurrentState().getAngles(), 0, anglesCopy, 0, anglesCopy.length);//more efficient copying
         anglesCopy[jointIndex] += angleStep; //add angleStep based on the action chosen
@@ -77,6 +87,9 @@ public class Environment {
             rewardDoneIllegalArr[2] = 1;
             done = 0;
         }
+        rewardDoneIllegalArr[0] = reward;
+        rewardDoneIllegalArr[1] = done;
+
         double diffX = agent.getCurrentState().getTargetX() - agent.getArm().getHandPointX();
         double diffY = agent.getCurrentState().getTargetY() - agent.getArm().getHandPointY();
         agent.getCurrentState().setDiffX(diffX);
@@ -85,8 +98,7 @@ public class Environment {
         lastIndexChange = jointIndex;
         lastAngleChange = angleStep;
 
-        rewardDoneIllegalArr[0] = reward;
-        rewardDoneIllegalArr[1] = done;
+
 
         return rewardDoneIllegalArr;
 
@@ -105,9 +117,9 @@ public class Environment {
             return new double[]{Constants.REPEATED_ACTION_PENALTY,0};
 
         int rewardMultiplier = Constants.REWARD_MULTIPLIER;
-        if (newDistance < 2)
+        if (newDistance < Constants.DISTANCE_CLOSE)
             rewardMultiplier = Constants.REWARD_MULTIPLIER_CLOSE ;
-        double reward = (currDistance-newDistance)*rewardMultiplier - Constants.TIME_WASTED_PENALTY;
+        double reward = (currDistance-newDistance)*rewardMultiplier + Constants.TIME_WASTED_PENALTY;
         return new double[]{reward,0};
     }
 
