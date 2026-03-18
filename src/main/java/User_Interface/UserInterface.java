@@ -20,14 +20,35 @@ public class UserInterface extends JPanel{
     private double targetY;
 
 
+    //components
+    JScrollPane armPositionScrollBar;
+
 
     void CreateWindow(){
-        JFrame frame = new JFrame();
-        frame.add(this);
-        this.setBounds(0, 0, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE);
-        frame.setSize(500,500);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JFrame mainFrame = new JFrame("Arm Simulation");
+        mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        mainFrame.setLayout(new BorderLayout());
+
+        //arm drawing area (CENTER)
+        this.setPreferredSize(new Dimension(UserInterfaceConstants.MAX_ENVIRONMENT_SIZE, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE));
+        this.setBackground(Color.WHITE);
+        mainFrame.add(this, BorderLayout.CENTER);
+
+
+        //adding scroll bar
+        JScrollBar armScrollBar = new JScrollBar(JScrollBar.VERTICAL);
+        armScrollBar.setPreferredSize(new Dimension(30, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE));
+        mainFrame.add(armScrollBar, BorderLayout.EAST);
+
+        //control panel
+        JPanel controlPanel = new JPanel();
+        controlPanel.add(new JButton("Reset Arm"));
+        controlPanel.add(new JButton("Randomize Position"));
+        mainFrame.add(controlPanel, BorderLayout.SOUTH);
+
+        mainFrame.pack(); // Automatically sizes the window to fit everything
+        mainFrame.setLocationRelativeTo(null); // Centers window on screen
+        mainFrame.setVisible(true);
     }
 
 
