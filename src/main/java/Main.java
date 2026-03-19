@@ -11,8 +11,8 @@ public class Main {
         Controller controller = new Controller(arm,userInterface,trainer);
 
         controller.createWindow();
-//        trainer.loadModel();
-//        trainer.trainModel(1000);//always change epsilon decay before changing
+        trainer.loadModel();
+        trainer.trainModel(1000);//always change epsilon decay before changing
 
 //
 //

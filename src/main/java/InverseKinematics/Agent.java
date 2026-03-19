@@ -207,6 +207,7 @@ public class Agent {
 
     public void loadNetworkFromFile(String filename){
         mainNetwork.load(filename);
+        targetNetwork.load(filename);
     }
 
 
