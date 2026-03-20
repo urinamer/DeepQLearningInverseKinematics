@@ -18,7 +18,7 @@ public class Agent {
 
 
     //global variables save or not create over and over
-    private float epsilon = 1;
+    private float epsilon = Constants.EPSILON_START_VALUE;
     private Random random = new Random();
 
 

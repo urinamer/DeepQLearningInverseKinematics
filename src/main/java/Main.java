@@ -10,15 +10,14 @@ public class Main {
         Trainer trainer = new Trainer(arm);
         Controller controller = new Controller(arm,userInterface,trainer);
 
-//        controller.createWindow();
-//        trainer.loadModel("2DOFModel.csv");
-        trainer.trainModel(1000);//always change epsilon decay before changing
-        trainer.saveModel("2DOFTEST.csv");
+        controller.createWindow();
+//        trainer.loadModel("2DOFTEST.csv");
+//        trainer.trainModel(2500);//always change epsilon decay before changing
+//        trainer.saveModel("2DOFTEST.csv");
 
-//
-//        trainer.loadModel();
-//        double avg_steps = trainer.testModel(1);
-//        System.out.println("avg_steps: " + avg_steps);
+        trainer.loadModel("2DOFTEST.csv");
+        double avg_steps = trainer.testModel(1);
+        System.out.println("avg_steps: " + avg_steps);
 
     }
 }
