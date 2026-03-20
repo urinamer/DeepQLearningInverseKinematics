@@ -15,7 +15,19 @@ public class Trainer {
     }
 
     public void loadModel(){
-        environment.getAgent().loadNetworkFromFile(Constants.NETWORK_FILE);//load model
+        environment.getAgent().loadNetworkFromFile(Constants.MODELS_FOLDER_PATH + Constants.DEFAULT_NETWORK_FILE);//load model
+    }
+
+    public void loadModel(String fileName){
+        environment.getAgent().loadNetworkFromFile(Constants.MODELS_FOLDER_PATH + fileName);//load model
+    }
+
+    public void saveModel(){
+        environment.getAgent().saveNetworkToFile(Constants.MODELS_FOLDER_PATH + Constants.DEFAULT_NETWORK_FILE);
+    }
+
+    public void saveModel(String fileName){
+        environment.getAgent().saveNetworkToFile(Constants.MODELS_FOLDER_PATH + fileName);
     }
 
     public void trainModel(int numOfEpisodes){
@@ -51,7 +63,6 @@ public class Trainer {
 
             environment.getAgent().decreaseEpsilon();//decay epsilon every episode
         }
-        environment.getAgent().saveNetworkToFile(Constants.NETWORK_FILE);
     }
 
 

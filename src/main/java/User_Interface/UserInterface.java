@@ -95,10 +95,10 @@ public class UserInterface extends JPanel{
         g2.setStroke(new BasicStroke(UserInterfaceConstants.STROKE_SIZE));
 
 
-        //drawing target
+
         try {
 
-
+            //drawing target
             g2.setColor(UserInterfaceConstants.TARGET_COLOR);
             Ellipse2D.Double target = new Ellipse2D.Double(linearMappingX(targetX) - 2.5, linearMappingY(targetY) - 2.5, 5, 5);
             g2.draw(target);
