@@ -1,18 +1,22 @@
 package InverseKinematics;
 
+import java.util.HashSet;
 import java.util.Random;
 public class Environment {
     private Agent agent;
     private Random random;
-
-    private double lastIndexChange;
-    private double lastAngleChange;
-
+    HashSet<HandPosition> handPositions;
 
 
     public Environment(Arm arm){
         agent = Agent.getAgent(arm);
         random = new Random();
+
+        handPositions = new HashSet<>();
+    }
+
+    public record HandPosition(double x,double y){
+
     }
 
     public void initNewEpisode(){
@@ -26,9 +30,10 @@ public class Environment {
 
 
         agent.getArm().resetArm();
+        handPositions.clear();
+        handPositions.add(new HandPosition(agent.getArm().getHandPointX(),agent.getArm().getHandPointY()));
 
-        lastIndexChange = -1;
-        lastAngleChange = 0;
+
 
         double diffX = targetX - agent.getArm().getHandPointX();
         double diffY = targetY - agent.getArm().getHandPointY();
@@ -74,13 +79,15 @@ public class Environment {
 
 
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
-            double[] computedReward = computeReward(oldX,oldY,jointIndex,angleStep);//returns reward and if it reached the target
+            double[] computedReward = computeReward(oldX,oldY);//returns reward and if it reached the target
             reward = computedReward[0];
             if(computedReward[1] == 1)
                 done = 1;
             else
                 done = 0;
             rewardDoneIllegalArr[2] = 0;
+
+            handPositions.add(new HandPosition(agent.getArm().getHandPointX(),agent.getArm().getHandPointY()));
         }
         else{
             reward = Constants.HITTING_WALLS_PENALTY;//hit the wall or itself, doesn't change state.
@@ -95,8 +102,6 @@ public class Environment {
         agent.getCurrentState().setDiffX(diffX);
         agent.getCurrentState().setDiffY(diffY);
 
-        lastIndexChange = jointIndex;
-        lastAngleChange = angleStep;
 
 
 
@@ -105,15 +110,18 @@ public class Environment {
     }
 
 
-    private double[] computeReward(double oldX,double oldY,double currentIndexChange,double currentAngleStep){// returns double array where [0] is reward and [1] is if it reached the target
+    private double[] computeReward(double oldX,double oldY){// returns double array where [0] is reward and [1] is if it reached the target
         double newDistance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
         double currDistance = Math.sqrt(Math.pow(oldX -agent.getCurrentState().getTargetX(),2)+Math.pow(oldY-agent.getCurrentState().getTargetY(),2));
 
         //if the arm reached the target, return reward and done = 1
         if(newDistance <= Constants.MIN_DISTANCE)
             return new double[]{Constants.REACHED_POINT_REWARD,1};
-        //if agent did inverse actions one after another return punishment.
-        if(currentIndexChange == lastIndexChange && currentAngleStep == -lastAngleChange)
+
+
+        //if agent been to the same spot more than once return punishment to discourage going in circles.
+        HandPosition newHandPosition = new HandPosition(agent.getArm().getHandPointX(),agent.getArm().getHandPointY());
+        if(handPositions.contains(newHandPosition))
             return new double[]{Constants.REPEATED_ACTION_PENALTY,0};
 
         int rewardMultiplier = Constants.REWARD_MULTIPLIER;
