@@ -30,8 +30,8 @@ public class Constants {
 
     //function constants
     public static final double DISCOUNT_FACTOR = 0.9;
-    public static final float EPSILON_START_VALUE = 0.3f;
-    public static final float EPSILON_DECAY = 0.99897f;//always change when changing numOfEpisodes
+    public static final float EPSILON_START_VALUE = 1f;
+    public static final float EPSILON_DECAY = 0.99949f;//always change when changing numOfEpisodes
     public static final float HUBER_LOSS_ALPHA = 1.0f;
 
     //distance and stepsize

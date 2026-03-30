@@ -10,14 +10,12 @@ public class Main {
         Trainer trainer = new Trainer(arm);
         Controller controller = new Controller(arm,userInterface,trainer);
 
-//        controller.createWindow();
-//        trainer.loadModel("2DOFTEST.csv");
-//        trainer.trainModel(5000);//always change epsilon decay before changing
-//        trainer.saveModel("2DOFTEST3.csv");
+        controller.createWindow();
+        trainer.loadModel("anti_loop_test.csv");
+//        System.out.println(trainer.testModel(1000));
 
-        trainer.loadModel("2DOFTEST2.csv");
-        double avg_steps = trainer.testModel(100);
-        System.out.println("avg_steps: " + avg_steps);
+//        trainer.trainModel(10000);
+//        trainer.saveModel("anti_loop_test.csv");
 
     }
 }
