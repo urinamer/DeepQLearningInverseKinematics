@@ -87,7 +87,7 @@ public class Network {
             for (int j = 0; j < layers[i].length; j++) {
                 this.layers[i][j].setBias(src.layers[i][j].getBias());
                 for(int k = 0; k < layers[i][j].getNumOfWeights(); k++){
-                    this.layers[i][j].getWeights()[k] = src.layers[i][j].getWeights()[k];
+                    this.layers[i][j].setWeight(k,src.layers[i][j].getWeights()[k]);
                 }
             }
         }
@@ -136,7 +136,7 @@ public class Network {
                 layers[i][j].setBias(newBias);
                 for(int k = 0; k < layers[i][j].getNumOfWeights(); k++){
                     double newWeight = layers[i][j].getWeights()[k] - NetworkConstants.LEARNING_RATE * (sumWeightsGradients[i][j][k] / numOfTransitions);//update weight based on average der
-                    layers[i][j].getWeights()[k] = newWeight;
+                    layers[i][j].setWeight(k, newWeight);
                 }
                 Arrays.fill(sumWeightsGradients[i][j],0);
             }
@@ -177,7 +177,7 @@ public class Network {
                 for (Neuron neuron : layer) {
                     neuron.setBias(Double.parseDouble(data[index++]));
                     for (int k = 0; k < neuron.getNumOfWeights(); k++) {
-                        neuron.getWeights()[k] = Double.parseDouble(data[index++]);
+                        neuron.setWeight(k,Double.parseDouble(data[index++])); ;
                     }
                 }
             }

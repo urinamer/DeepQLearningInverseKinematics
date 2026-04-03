@@ -14,8 +14,8 @@ public class Main {
 
         Controller controller = new Controller(arm,userInterface,trainer);
 
-//        controller.createWindow();
-//        trainer.loadModel("anti_loop_test.csv");
+        controller.createWindow();
+        trainer.loadModel("2DOF99PercentAcc.csv");
 //        System.out.println(trainer.testModel(1000));
 
         trainer.trainModel(1);

@@ -51,7 +51,7 @@ public class Neuron {
 
 
     public double[] getWeights() {
-        return weights;
+        return weights.clone();//uses clone to not break the oop principle
     }
 
     public void setWeight(int index,double value){
