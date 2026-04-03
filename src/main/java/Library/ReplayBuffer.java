@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class ReplayBuffer {
 
-
     private int size;
     private int addIndex;
     private final int maxSize;
@@ -21,6 +20,8 @@ public class ReplayBuffer {
         size = 0;
         addIndex = 0;
     }
+
+    public record BufferTransition(NetworkState currentState, int actionIndex, double reward, NetworkState nextState, boolean isDone, boolean didIllegalMove){}
 
     public void addToReplayBuffer(NetworkState currentState, int actionIndex, double reward, NetworkState nextState, boolean isDone, boolean doneIllegalMove){
         BufferTransition newTransition = new BufferTransition(currentState,actionIndex,reward,nextState,isDone,doneIllegalMove);

@@ -48,7 +48,6 @@ public class Environment {
             agent.getCurrentState().setDiffX(diffX);
             agent.getCurrentState().setDiffY(diffY);
         }
-
     }
 
 

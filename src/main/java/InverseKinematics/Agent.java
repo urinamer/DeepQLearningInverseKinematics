@@ -2,7 +2,7 @@ package InverseKinematics;
 
 import java.util.Random;
 
-import Library.BufferTransition;
+import Library.ReplayBuffer.BufferTransition;
 import Library.Network;
 import Library.ReplayBuffer;
 import org.apache.logging.log4j.*;
@@ -149,19 +149,19 @@ public class Agent {
         for(int i = 0; i < Constants.BATCH_SIZE; i++){
             //Maybe shouldn't have connection from agent to Library.BufferTransition class.
             BufferTransition bufferTransition = replayBuffer.getRandomFromReplayBuffer();
-            double[] mainInputs = convertFromStateToInputs((State)bufferTransition.getCurrentState());
-            double[] targetInputs = convertFromStateToInputs((State)bufferTransition.getNextState());
+            double[] mainInputs = convertFromStateToInputs((State)bufferTransition.currentState());
+            double[] targetInputs = convertFromStateToInputs((State)bufferTransition.nextState());
             //important to have forwardPass(mainInputs) last so layerOutputs has the inputs for mainInputs and not targetInputs
             int bestActionIndex = findIndexOfMax(mainNetwork.forwardPass(targetInputs));
-            double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.getActionIndex()];
+            double preQValue = mainNetwork.forwardPass(mainInputs)[bufferTransition.actionIndex()];
 
             sumQValue += preQValue;
             learnCounter++;
             double avgQValue = sumQValue/learnCounter;
 
             //Bellman equation. Only add maxArg when not in the terminal state
-            double targetQValue = bufferTransition.getReward() +
-                    (bufferTransition.isDone() || bufferTransition.doIllegalMove() ? 0 :
+            double targetQValue = bufferTransition.reward() +
+                    (bufferTransition.isDone() || bufferTransition.didIllegalMove() ? 0 :
                             Constants.DISCOUNT_FACTOR * targetNetwork.forwardPass(targetInputs)[bestActionIndex]);
 
 
@@ -184,7 +184,7 @@ public class Agent {
 
 
             double outputLayerDelta = huberLossDer(preQValue,targetQValue);
-            mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.getActionIndex());//update network sumGradients
+            mainNetwork.backpropagation(mainInputs,outputLayerDelta,bufferTransition.actionIndex());//update network sumGradients
 
         }
 
