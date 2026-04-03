@@ -8,8 +8,8 @@ public class Environment {
     HashSet<HandPosition> handPositions;
 
 
-    public Environment(Arm arm){
-        agent = Agent.getAgent(arm);
+    public Environment(Agent agent){
+        this.agent = agent;
         random = new Random();
 
         handPositions = new HashSet<>();

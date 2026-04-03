@@ -4,14 +4,11 @@ import java.util.ArrayList;
 
 public class Trainer {
     Environment environment;
-    Arm arm;
 
 
 
-
-    public Trainer(Arm arm) {
-        this.environment = new Environment(arm);
-        this.arm = arm;
+    public Trainer(Agent agent) {
+        this.environment = new Environment(agent);
     }
 
     public void loadModel(){
@@ -102,7 +99,7 @@ public class Trainer {
         environment.initNewEpisode();
         ArrayList<double[][]> episodeInfo = new ArrayList<>();
         episodeInfo.add(new double[][]{{environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY()}});
-        episodeInfo.add(arm.getArmJoints());
+        episodeInfo.add(environment.getAgent().getArm().getArmJoints());
         int countSteps = 0;
         boolean done = false;
         while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
@@ -111,7 +108,7 @@ public class Trainer {
             done = rewardArr[1] == 1;
             countSteps++;
 
-            episodeInfo.add(arm.getArmJoints());
+            episodeInfo.add(environment.getAgent().getArm().getArmJoints());
         }
         System.out.println("num of steps: " + countSteps);
         return episodeInfo;

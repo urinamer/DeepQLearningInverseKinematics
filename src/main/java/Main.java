@@ -1,3 +1,4 @@
+import InverseKinematics.Agent;
 import InverseKinematics.Arm;
 import InverseKinematics.Trainer;
 import User_Interface.Controller;
@@ -7,7 +8,10 @@ public class Main {
     public static void main(String[] args) {
         Arm arm = new Arm();
         UserInterface userInterface = new UserInterface();
-        Trainer trainer = new Trainer(arm);
+
+        Agent agent = new Agent(arm);
+        Trainer trainer = new Trainer(agent);
+
         Controller controller = new Controller(arm,userInterface,trainer);
 
 //        controller.createWindow();

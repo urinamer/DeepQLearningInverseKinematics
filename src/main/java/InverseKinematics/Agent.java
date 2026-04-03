@@ -8,7 +8,6 @@ import Library.ReplayBuffer;
 import org.apache.logging.log4j.*;
 
 public class Agent {
-    private static Agent agent;
     private State currentState;
     private Arm arm;
 
@@ -28,7 +27,7 @@ public class Agent {
     double sumLoss = 0;
     int learnCounter = 0;
 
-    private Agent(Arm arm){
+    public Agent(Arm arm){
         currentState = null;
         this.arm = arm;
         replayBuffer = new ReplayBuffer();
@@ -38,12 +37,6 @@ public class Agent {
         targetNetwork.copyNetwork(mainNetwork);
     }
 
-    public static Agent getAgent(Arm arm){
-        if(agent == null) {
-           agent = new Agent(arm);
-        }
-        return agent;
-    }
 
 
     //for testing use or don't use epsilon greedy
@@ -59,7 +52,7 @@ public class Agent {
 
 
     private int chooseBestAction(boolean useEpsilon){
-        double[] inputs = convertFromStateToInputs(agent.currentState);
+        double[] inputs = convertFromStateToInputs(currentState);
         double[] outputQValues =  mainNetwork.forwardPass(inputs);
         return chooseExploreExploit(outputQValues,useEpsilon);
     }
