@@ -52,7 +52,6 @@ public class Environment {
 
 
     public double[] step(int actionIndex){//returns reward, is done and if did illegal move
-        //dynamic stepSize.
         double stepSize;
         double distance = Math.sqrt(Math.pow(agent.getArm().getHandPointX()-agent.getCurrentState().getTargetX(),2)+Math.pow(agent.getArm().getHandPointY()-agent.getCurrentState().getTargetY(),2));
         if(distance > Constants.DISTANCE_CLOSE)
@@ -80,10 +79,7 @@ public class Environment {
         if(agent.getArm().calculateForwardKinematics(anglesCopy)){//if action didn't make the arm do something that is not possible
             double[] computedReward = computeReward(oldX,oldY);//returns reward and if it reached the target
             reward = computedReward[0];
-            if(computedReward[1] == 1)
-                done = 1;
-            else
-                done = 0;
+            done = (int)computedReward[1];
             rewardDoneIllegalArr[2] = 0;
 
             handPositions.add(new HandPosition(agent.getArm().getHandPointX(),agent.getArm().getHandPointY()));
@@ -101,11 +97,7 @@ public class Environment {
         agent.getCurrentState().setDiffX(diffX);
         agent.getCurrentState().setDiffY(diffY);
 
-
-
-
         return rewardDoneIllegalArr;
-
     }
 
 

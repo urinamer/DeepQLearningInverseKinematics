@@ -64,7 +64,7 @@ public class Agent {
         double[] inputs = new double[state.getAngles().length*2 + 4];
         double sumAngles = 0;
         for(int i = 0; i < state.getAngles().length ; i++){
-            //converting angles to sin and cos and using accumulated angles to help the network understand inverseKinematics better.
+            //converting angles to sin and cos and using accumulated angles to calculate the angles of all the joints based on forward kinematics.
             sumAngles += state.getAngles()[i];
             double radianAngle = Math.toRadians(sumAngles);
             inputs[i*2] = Math.cos(radianAngle);

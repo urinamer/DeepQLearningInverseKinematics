@@ -28,6 +28,7 @@ public class UserInterface extends JPanel{
     //components
     JScrollBar armScrollBar;
     JButton newEpisodeButton;
+    
 
     public UserInterface(){
         armScrollBar = new JScrollBar(JScrollBar.VERTICAL);

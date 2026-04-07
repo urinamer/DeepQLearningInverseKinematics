@@ -33,6 +33,11 @@ public class Arm {
         this.basePointY = basePointY;
         this.numOfLinks = numOfLinks;
         this.linkLengths = linkLengths;
+        armAngles = new double[numOfLinks];
+        //randomizing initial angles
+        for(int i = 0; i < numOfLinks; i++){
+            armAngles[i] = random.nextDouble()*180;
+        }
         calculateForwardKinematics(armAngles);
         calculateRadius();
     }
@@ -45,9 +50,10 @@ public class Arm {
         Arrays.fill(linkLengths,Constants.DEFAULT_LINK_LENGTH);
 
         armAngles = new double[numOfLinks];
-        Arrays.fill(armAngles,0);
-        armAngles[0] = Constants.DEFAULT_ANGLE1;
-
+        //randomizing initial angles
+        for(int i = 0; i < numOfLinks; i++){
+            armAngles[i] = random.nextDouble()*180;
+        }
 
         calculateForwardKinematics(armAngles);
         calculateRadius();
