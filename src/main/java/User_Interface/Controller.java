@@ -40,6 +40,13 @@ public class Controller {
             }
         });
 
+        userInterface.setCustomTargetButtonListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userInterface.updateEpisodeInfo(trainer.newEpisode(userInterface.getCustomTargetX(),userInterface.getCustomTargetY()));
+            }
+        });
+
     }
 
 

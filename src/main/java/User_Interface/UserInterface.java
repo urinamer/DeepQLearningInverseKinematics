@@ -181,6 +181,27 @@ public class UserInterface extends JPanel {
         return UserInterfaceConstants.MAX_ENVIRONMENT_SIZE - val;
     }
 
+
+    public double getCustomTargetX() {
+        if(xInputField.getText().isEmpty())
+            return 0;
+        double x = Double.parseDouble(xInputField.getText());
+        if(x > maxArmX || x < minArmX)
+            return 0;
+        return x;
+    }
+
+    public double getCustomTargetY() {
+        if(yInputField.getText().isEmpty())
+            return 0;
+        double y = Double.parseDouble(yInputField.getText());
+        if (y > maxArmY || y < minArmY)
+            return 0;
+        return y;
+    }
+
     public void setArmScrollBarListener(AdjustmentListener listener) { armScrollBar.addAdjustmentListener(listener); }
     public void setNewEpisodeButtonListener(ActionListener listener) { newEpisodeButton.addActionListener(listener); }
+    public void setCustomTargetButtonListener(ActionListener listener) { customTargetButton.addActionListener(listener); }
+
 }
