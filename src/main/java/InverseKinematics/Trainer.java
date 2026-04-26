@@ -1,5 +1,7 @@
 package InverseKinematics;
 
+import User_Interface.EpisodeStep;
+
 import java.util.ArrayList;
 
 public class Trainer {
@@ -95,23 +97,29 @@ public class Trainer {
     }
 
 
-    public ArrayList<double[][]> newEpisode(){
+    public ArrayList<EpisodeStep> newEpisode(){
         environment.initNewEpisode();
-        ArrayList<double[][]> episodeInfo = new ArrayList<>();
-        episodeInfo.add(new double[][]{{environment.getAgent().getCurrentState().getTargetX(),environment.getAgent().getCurrentState().getTargetY()}});
-        episodeInfo.add(environment.getAgent().getArm().getArmJoints());
+        ArrayList<EpisodeStep> episodeSteps = new ArrayList<>();
         int countSteps = 0;
         boolean done = false;
         while (!done && countSteps < Constants.MAX_STEPS_PER_EPISODE) {
+            State currentState = environment.getAgent().getCurrentState();
             int actionIndex = environment.getAgent().makeAction(false);
+            double qValue = environment.getAgent().getQvalue(currentState, actionIndex);
+            episodeSteps.add(new EpisodeStep(
+                    environment.getAgent().getArm().getArmJoints(),
+                    environment.getAgent().getArm().getArmAngles().clone(), // חשוב להשתמש ב-clone כדי שהערכים לא ישתנו
+                    qValue,
+                    currentState.getTargetX(),currentState.getTargetY()
+            ));
+
             double[] rewardArr = environment.step(actionIndex);
             done = rewardArr[1] == 1;
             countSteps++;
 
-            episodeInfo.add(environment.getAgent().getArm().getArmJoints());
         }
         System.out.println("num of steps: " + countSteps);
-        return episodeInfo;
+        return episodeSteps;
     }
 
 

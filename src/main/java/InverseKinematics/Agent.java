@@ -203,6 +203,11 @@ public class Agent {
         targetNetwork.load(filename);
     }
 
+    //get Qvalue of actionIndex in state for display purposes
+    public double getQvalue(State state, int actionIndex) {
+        double[] allQValues = mainNetwork.forwardPass(convertFromStateToInputs(state));
+        return allQValues[actionIndex];
+    }
 
     public Arm getArm(){
         return arm;

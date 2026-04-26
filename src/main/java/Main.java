@@ -6,7 +6,7 @@ import User_Interface.UserInterface;
 
 public class Main {
     public static void main(String[] args) {
-        Arm arm = new Arm(0,0,3,new double[]{3,3,3});
+        Arm arm = new Arm(0,0,2,new double[]{5,5});
         UserInterface userInterface = new UserInterface();
 
         Agent agent = new Agent(arm);
@@ -14,9 +14,8 @@ public class Main {
 
         Controller controller = new Controller(arm,userInterface,trainer);
 
-//        controller.createWindow();
-        trainer.loadModel("3DOFTEST.csv");
-        System.out.println(trainer.testModel(1000));
+        controller.createWindow();
+        trainer.loadModel("2DOF99PercentAcc.csv");
 //        trainer.trainModel(10000);
 //        trainer.saveModel("3DOFTEST.csv");
     }

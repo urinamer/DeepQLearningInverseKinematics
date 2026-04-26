@@ -28,6 +28,7 @@ public class Controller {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
                 userInterface.updatePositionIndex(e.getValue());
+                userInterface.updateInferenceData();
             }
         });
 
