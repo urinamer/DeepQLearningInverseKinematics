@@ -27,6 +27,7 @@ public class UserInterface extends JPanel {
     private JLabel targetLabel;
     private JLabel anglesLabel;
     private JLabel qValueLabel;
+    private JLabel numStepsLabel;
 
     private JTextField xInputField;
     private JTextField yInputField;
@@ -40,6 +41,7 @@ public class UserInterface extends JPanel {
         targetLabel = new JLabel("Target: (0.00, 0.00)");
         anglesLabel = new JLabel("Angles: [0.00, 0.00]");
         qValueLabel = new JLabel("Current Q-Value: 0.00");
+        numStepsLabel = new JLabel("Number Of Steps Taken: 0");
         xInputField = new JTextField(5);
         yInputField = new JTextField(5);
         customTargetButton = new JButton("Set Target");
@@ -68,7 +70,7 @@ public class UserInterface extends JPanel {
         infoPanel.setPreferredSize(new Dimension(200, UserInterfaceConstants.MAX_ENVIRONMENT_SIZE));
         infoPanel.setBackground(new Color(245, 245, 245));
 
-        JLabel title = new JLabel("Inference Data");
+        JLabel title = new JLabel("Simulation Data");
         title.setFont(new Font("Arial", Font.BOLD, 14));
 
         infoPanel.add(title);
@@ -78,6 +80,8 @@ public class UserInterface extends JPanel {
         infoPanel.add(anglesLabel);
         infoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         infoPanel.add(qValueLabel);
+        infoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        infoPanel.add(numStepsLabel);
 
         mainFrame.add(infoPanel, BorderLayout.WEST);
 
@@ -115,6 +119,7 @@ public class UserInterface extends JPanel {
         anglesLabel.setText(anglesStr.toString());
 
         qValueLabel.setText(String.format("Current Q-Value: %.4f", episodeArmPositions.get(positionIndex).qValue));
+        numStepsLabel.setText(String.format("Number Of Steps Taken: %d",episodeArmPositions.size()));
     }
 
     public void updateEpisodeInfo(ArrayList<EpisodeStep> episodeSteps) {

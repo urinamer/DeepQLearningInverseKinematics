@@ -10,5 +10,4 @@ public class UserInterfaceConstants {
     public static final Color TARGET_COLOR = Color.BLUE;
     public static final Color BASE_COLOR = Color.ORANGE;
     public static final int STROKE_SIZE = 5;
-    public static final int COORDS_MULTIPLY = 10;
 }
