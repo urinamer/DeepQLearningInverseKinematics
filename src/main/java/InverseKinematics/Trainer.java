@@ -99,6 +99,15 @@ public class Trainer {
 
     public ArrayList<EpisodeStep> newEpisode(){
         environment.initNewEpisode();
+        return newEpisodeLogic();
+    }
+
+    public ArrayList<EpisodeStep> newEpisode(double targetX, double targetY){
+        environment.initNewEpisode(targetX,targetY);
+        return newEpisodeLogic();
+    }
+
+    private ArrayList<EpisodeStep> newEpisodeLogic(){
         ArrayList<EpisodeStep> episodeSteps = new ArrayList<>();
         int countSteps = 0;
         boolean done = false;
@@ -116,7 +125,6 @@ public class Trainer {
             double[] rewardArr = environment.step(actionIndex);
             done = rewardArr[1] == 1;
             countSteps++;
-
         }
         System.out.println("num of steps: " + countSteps);
         return episodeSteps;

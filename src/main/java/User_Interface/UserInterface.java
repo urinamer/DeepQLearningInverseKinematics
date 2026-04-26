@@ -28,14 +28,21 @@ public class UserInterface extends JPanel {
     private JLabel anglesLabel;
     private JLabel qValueLabel;
 
+    private JTextField xInputField;
+    private JTextField yInputField;
+    private JButton customTargetButton;
+
     public UserInterface() {
         armScrollBar = new JScrollBar(JScrollBar.VERTICAL);
-        newEpisodeButton = new JButton("New Episode");
+        newEpisodeButton = new JButton("Random Target");
 
         // Initializing Info Labels
         targetLabel = new JLabel("Target: (0.00, 0.00)");
         anglesLabel = new JLabel("Angles: [0.00, 0.00]");
         qValueLabel = new JLabel("Current Q-Value: 0.00");
+        xInputField = new JTextField(5);
+        yInputField = new JTextField(5);
+        customTargetButton = new JButton("Set Target");
 
         positionIndex = 0;
     }
@@ -76,7 +83,17 @@ public class UserInterface extends JPanel {
 
         //control panel
         JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout()); // סידור שורתי
+
+        controlPanel.add(new JLabel("X:"));
+        controlPanel.add(xInputField);
+        controlPanel.add(new JLabel("Y:"));
+        controlPanel.add(yInputField);
+        controlPanel.add(customTargetButton);
+
+        controlPanel.add(new JSeparator(JSeparator.VERTICAL)); // קו מפריד
         controlPanel.add(newEpisodeButton);
+
         mainFrame.add(controlPanel, BorderLayout.SOUTH);
 
         mainFrame.pack();
